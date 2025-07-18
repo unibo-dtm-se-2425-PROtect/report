@@ -19,7 +19,9 @@ PROtect is a secure, Python-based password manager which uses a master password,
 ### by cloning the repository
 '''bash 
 git clone https://github.com/unibo-dtm-se-2425-PROtect
+
 pip install -r requirements.txt if using requirements.txt 
+
 poetry install (via bash) if using Poetry 
 
 # Security Principles
