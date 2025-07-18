@@ -1,5 +1,5 @@
-title: Project work template
-description: A starter template for Software Engineering project work!
+title: PROtect 
+description: A password manager to save, retrieve, update personal passwords and usernames related to websites and applications. 
 remote_theme: pmarsceill/just-the-docs
 color_scheme: "light"
 search_enabled: true
