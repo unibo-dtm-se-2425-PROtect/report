@@ -1,9 +1,40 @@
-# Project work final report template
+# PROtect - password manager
 
-[This repository][template-repo] contains a template Software Engineering (SE) reports.
+PROtect is a secure, Python-based password manager which uses a master password, a device secret and SHA-256 encryption to store and retrieve credentials. It includes both a CLI (Command Line Interface) and a GUI (Graphical User Interface). 
 
-It has been conceived to be used by students of the [Software Engineering course][course-site] 
-for their project work.
+# Features
+
+1. Master Password Protection
+2. Device-specific secret generation
+3. SHA-256 encryption for stored passwords
+4. Passwords are not stored in clear, but they are hashed
+5. Secure storage using MySQL
+6. CLI for terminal lovers
+7. Simple GUI with Kivy for more basic users
+(.............)
+
+[screenshots of CLI and GUI when ready] 
+
+# Installation 
+### by cloning the repository
+'''bash 
+git clone https://github.com/unibo-dtm-se-2425-PROtect
+pip install -r requirements.txt if using requirements.txt 
+poetry install (via bash) if using Poetry 
+
+# Security Principles
+
+1. Passwords are hashed using SHA-256 via 'hashlib'
+2. Master Password never stored in plaintext
+3. Database access protected by MySQL login credentials
+4. No passwords are exposed in logs or errors
+   (....................)
+
+
+
+
+
+
 
 By adopting this template, students can _automatically_ generate a _static_ Web-site,
 which will present their report in fancy way.
