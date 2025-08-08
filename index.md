@@ -1,16 +1,17 @@
 ---
-title: Home
+title: Getting started
 layout: home
 has_children: false
 nav_order: 1
 ---
 
-# Project title
+# PROtect
 
 ### Authors
 
-- [Giovanni Ciatto](mailto:giovanni.ciatto@unibo.it)
-- [Davide Domini](mailto:davide.domini@unibo.it)
+- [Alberto Antonello](mailto:alberto.antonello2@studio.unibo.it)
+- [Filippo Bonaldo](mailto:filippo.bonaldo@studio.unibo.it)
+- [Francesca Gaeta](mailto:franchesca.gaeta2@studio.unibo.it)
 
 ## Abstract
 
@@ -18,10 +19,12 @@ nav_order: 1
 
 Here you should briefly explain what the project is about.
 
-## Disclaimer (if needed)
+## Disclaimer
 
-During the preparation of this work, the author(s) used [NAME TOOL / SERVICE] to [REASON].
+During the preparation of this work, the authors used CHATGPT to check whether some conventional commit tags had been properly attributed, to ask suggestions on how to enhance the code or solve some issues when we were stuck.
 
-After using this tool/service, the author(s) reviewed and edited the content as needed
-and take(s) full responsibility for the content of the final report/artifact.
+During the preparation of this work, the author(s) used PLANTUML.COM to design the diagrams to give a graphical idea of the project. 
+
+After using these tools/services, the authors reviewed and edited the content as needed
+and take full responsibility for the content of the final report/artifact.
 
