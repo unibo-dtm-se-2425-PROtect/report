@@ -16,9 +16,9 @@ Other useful libraries and tools, in our case, were of course all those related 
 
 For safety and security purposes, we wanted to set up a system which automatically copies the password to clipboard when retrieved to avoid showing it on the screen, let it be in the CLI or the GUI. To let the user perform queries, we adopted mysql-connector-python as library to activate the SQL language to let the application understand what we intend to do. 
 
-### IMPORTANT STEPS FOR THE DEVELOPMENT AND FUNCTIONING
+# IMPORTANT STEPS FOR THE DEVELOPMENT AND FUNCTIONING
 
-# Configuration
+### Configuration
 
 - The master password is the first input while configuring, and the hash of it is saved in a file
 - The device secret is generated randomly, also stored in a file
@@ -28,7 +28,7 @@ For safety and security purposes, we wanted to set up a system which automatical
 - PLAIN FIELDS: site name, site URL 
 - The information related to the user get stored in the database called PROtect in the "entires" table. The secrets such as the master password and the device secret rely on a different table in the same database called "secrets". 
 
-# Process to add new entries
+### Process to add new entries
 
 - Ask for Master Password
 - Validate Master Password by hashing and checking with existing hash
@@ -36,7 +36,7 @@ For safety and security purposes, we wanted to set up a system which automatical
 - Input fields of the entry: site name, site URL, email, username, password
 - Encrypt email, username and password with Master Key and save the fields into the database 
 
-# Process to get an entry
+### Process to get an entry
 
 - Input the field to search for (e.g., site name, site URL, username...)
 - Display all the entires that match the research, the password is hidden by default 
@@ -46,7 +46,7 @@ For safety and security purposes, we wanted to set up a system which automatical
     - Make hash (Device Secret + Master Password) = Master Key
     - Decrypt the password and copy to clipboard 
 
-# Focus on the USERS
+### Focus on the USERS
 
 The users can belong to different levels of expertise, hence choosing whether using a CLI or a GUI. Their interaction with the system depends on how many passwords they need to store depending on how many sites and applications they use, which can differ on the basis of their knwoledge, social and/or work background. We hypothesize the frequency to be high since a password manager is a comfortable, useful and safe tool for anybody and people nowadays have access to many sites, owning multiple of profiles. 
 
