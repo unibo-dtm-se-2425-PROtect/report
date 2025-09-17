@@ -21,35 +21,56 @@ We would not suggest this application for important levels of business, like ado
 The requirements observed to build the application can be divided into functional, non-functional and implementation needs. The former imply some functionality the software should provide to the user, while the non-functional are requiremnts that do not directly concern behavioral aspects (e.g., consistency, availability, security, efficiency). Implementation stuff involves constraints for the entire phase of system realization (e.g, requiring the use of a specific programming language and/or a specific software dependency). 
 
 The **FUNCTIONAL REQUIREMENTS** involve: 
-  - Choosing a master password for the main user to be identified and gain access to private data;
-  - Entering a new entry, where an entry is intended as name of website, its URL and the consequent username with associated email and password used to access and perform tasks on such website;
-  - Deleting an entry because it is no more needed (e.g., the users unsubscribed and deleted their profile on a site);
-  - Modifying an existing entry because the users may need to change password (e.g., they forgot it and recovered it, or decide to change it regularly for higher security guarantee);
-  - The modification of an entry may involve one or more fields in the row
-  - Adding a new entry (e.g., the users may subscribe to a new website or create another profile on an already known website);
-  - Importing and exporting files that already contain the information about the entries they want to insert in the application's table 
+| ID  | Requirement |
+|-----|-------------|
+| F1  | The system must allow the user to set and use a **master password** to gain access to private data. |
+| F2  | The system must allow the user to **add a new entry**, consisting of: website name, URL, username, email, and password. |
+| F3  | The system must allow the user to **modify an existing entry**, including one or more fields (e.g., password change). |
+| F4  | The system must allow the user to **delete an entry** when it is no longer needed. |
+| F5  | The system must allow the user to **import entries** from existing files. |
+| F6  | The system must allow the user to **export entries** to a file. |
+
+# ACCEPTANCE CRITERIA FOR FUNCTIONAL REQUIREMENTS
+F1 is checked when the user is prompted to set a master password on first use and cannot access entries without entering it correctly.
+F2 is checked when a new entry is saved in the database and shown in the list after user submits the required fields.
+F3 is checked when changes made to any field (website, URL, username, email, password) are saved and visible after update.
+F4 is checked when an entry is permanently removed from the database and no longer appears in the list.
+F5 is checked when data from a valid import file is successfully parsed and new entries appear in the system.
+F6 is checked when an export process produces a file containing the current entries in the system in the correct format.
  
 
 The **NON-FUNCTIONAL REQUIREMENTS** touch: 
-  - Since any modification in the password manager app impacts users' privacy, we double check their identity by asking them to insert the master password again to be sure they are who they say they are;
-  - Rendering an user-friendly GUI so that any basic user experiences easy and intuitive usability, which involves letting message boxes (warnings, error and success messages, ...) pop up and interact with windows by means of the mouse thanks to clear and visible button;
-  - Automatic encryption of password when it is modified or inserted for the first time in a new entry row, so that it is not showed on display
-  - AES256 encryption to make password secret
+| ID  | Requirement |
+|-----|-------------|
+| NF1 | The system must **double-check user identity** by requiring the master password again before sensitive modifications. |
+| NF2 | The system must provide a **user-friendly GUI**, with: clear buttons, mouse interaction, and message boxes for feedback (warnings, errors, success messages). |
+| NF3 | The system must ensure **passwords are never displayed in plain text**; they are automatically hidden when inserted or modified. |
+| NF4 | The system must use **strong encryption** to secure passwords. (e.g., AES-256 standard) |
+
+# ACCEPTANCE CRITERIA FOR NON-FUNCTIONAL REQUIREMENTS
+NF1 is checked when any attempt to delete, modify, or export entries requires re-entering the correct master password.
+NF2 is checked when buttons are clickable with a mouse, actions trigger confirmation dialogs, and success/error/warning messages are displayed.
+NF3 is checked when password fields show masked characters (e.g., ••••) instead of plain text, and never display stored values unencrypted.
+NF4 is checked when all stored passwords are encrypted before saving and cannot be retrieved in plaintext without proper decryption.
 
 
 The **IMPLEMENTATION REQUIREMENTS**, which are more technical stuff, are about: 
-   - Initializing a database so that entries and passwords have a place where to be stored in the system;
+| ID  | Requirement |
+|-----|-------------|
+| I1  | The system must use a **database** to store entries and associated credentials. |
+| I2  | The database must be **SQL-compatible** for query execution. |
+| I3  | The system must be developed in **Python**. |
+| I4  | Passwords must be encrypted using the **AES-256 algorithm**. |
 
+# ACCEPTANCE CRITERIA FOR IMPLEMENTATION REQUIREMENTS
+I1 is checked when entries are stored in a structured database file (not just temporary memory).
+I2 is checked when database queries (insert, update, delete, select) work using SQL syntax.
+I3 is checked when the source code of the application is implemented in Python.
+I4 is checked when the verification of the code shows AES-256 encryption is applied when saving passwords.
+
+# POLITICAL, ECONOMIC AND ADMINISTRATIVE REASONS FOR IMPLEMENTATION REQUIREMENTS
 
     
-- The requirements must explain **what** (not how) the software being produced should do.
-    - You should not focus on the particular problems, but exclusively on what you want the application to do.
-- Requirements must be clearly identified, and possibly numbered.
-- Requirements are divided into:
-    - **Functional**: some functionality the software should provide to the user.
-    - **Non-functional**: requirements that do not directly concern behavioral aspects, such as consistency, availability, security, efficiency, etc.
-    - **Implementation**: constrain the entire phase of system realization, for instance by requiring the use of a specific programming language and/or a specific software dependency.
-        - These constraints should be adequately justified by political / economic / administrative reasons (which must be written down)...
         - ...otherwise, implementation choices should emerge *as a consequence of* design (and therefore described in the design section).
 - If there are domain-specific terms, these should be explained in a **glossary**.
 - Each requirement must have its own **acceptance criteria**.
