@@ -49,8 +49,11 @@ The **NON-FUNCTIONAL REQUIREMENTS** touch:
 
 # ACCEPTANCE CRITERIA FOR NON-FUNCTIONAL REQUIREMENTS
 NF1 is checked when any attempt to delete, modify, or export entries requires re-entering the correct master password.
+
 NF2 is checked when buttons are clickable with a mouse, actions trigger confirmation dialogs, and success/error/warning messages are displayed.
+
 NF3 is checked when password fields show masked characters (e.g., ••••) instead of plain text, and never display stored values unencrypted.
+
 NF4 is checked when all stored passwords are encrypted before saving and cannot be retrieved in plaintext without proper decryption.
 
 
