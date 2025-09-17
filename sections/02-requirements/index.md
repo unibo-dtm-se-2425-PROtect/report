@@ -29,6 +29,8 @@ The **FUNCTIONAL REQUIREMENTS** involve:
 | F4  | The system must allow the user to **delete an entry** when it is no longer needed. |
 | F5  | The system must allow the user to **import entries** from existing files. |
 | F6  | The system must allow the user to **export entries** to a file. |
+| F7  | The system must allow **duplicate entry prevention** to avoid inserting the same site entry twice. |
+| F8  | The system must **validate input** so that the required fields (sitename, URL, username/email) are not empty before saving. |
 
 # ACCEPTANCE CRITERIA FOR FUNCTIONAL REQUIREMENTS
 F1 is checked when the user is prompted to set a master password on first use and cannot access entries without entering it correctly.<br>
@@ -37,7 +39,8 @@ F3 is checked when changes made to any field (website, URL, username, email, pas
 F4 is checked when an entry is permanently removed from the database and no longer appears in the list.<br>
 F5 is checked when data from a valid import file is successfully parsed and new entries appear in the system.<br>
 F6 is checked when an export process produces a file containing the current entries in the system in the correct format.<br>
-<br>
+F7 is checked when a user inserts a new entry and an error message pups up when the field is identical to another one in an existing row.<br>
+F8 is checked when the user tries to save a new entry or a modified row and an error message pops up warning that some of the compulsory fields appear empty,<br>
 
 The **NON-FUNCTIONAL REQUIREMENTS** touch: 
 | ID  | Requirement |
