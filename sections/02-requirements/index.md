@@ -31,13 +31,13 @@ The **FUNCTIONAL REQUIREMENTS** involve:
 | F6  | The system must allow the user to **export entries** to a file. |
 
 # ACCEPTANCE CRITERIA FOR FUNCTIONAL REQUIREMENTS
-F1 is checked when the user is prompted to set a master password on first use and cannot access entries without entering it correctly.
-F2 is checked when a new entry is saved in the database and shown in the list after user submits the required fields.
-F3 is checked when changes made to any field (website, URL, username, email, password) are saved and visible after update.
-F4 is checked when an entry is permanently removed from the database and no longer appears in the list.
-F5 is checked when data from a valid import file is successfully parsed and new entries appear in the system.
-F6 is checked when an export process produces a file containing the current entries in the system in the correct format.
- 
+F1 is checked when the user is prompted to set a master password on first use and cannot access entries without entering it correctly.<br>
+F2 is checked when a new entry is saved in the database and shown in the list after user submits the required fields.<br>
+F3 is checked when changes made to any field (website, URL, username, email, password) are saved and visible after update.<br>
+F4 is checked when an entry is permanently removed from the database and no longer appears in the list.<br>
+F5 is checked when data from a valid import file is successfully parsed and new entries appear in the system.<br>
+F6 is checked when an export process produces a file containing the current entries in the system in the correct format.<br>
+<br>
 
 The **NON-FUNCTIONAL REQUIREMENTS** touch: 
 | ID  | Requirement |
@@ -52,7 +52,7 @@ NF1 is checked when any attempt to delete, modify, or export entries requires re
 NF2 is checked when buttons are clickable with a mouse, actions trigger confirmation dialogs, and success/error/warning messages are displayed.<br>  
 NF3 is checked when password fields show masked characters (e.g., ••••) instead of plain text, and never display stored values unencrypted.<br>  
 NF4 is checked when all stored passwords are encrypted before saving and cannot be retrieved in plaintext without proper decryption.
-
+<br>
 
 The **IMPLEMENTATION REQUIREMENTS**, which are more technical stuff, are about: 
 | ID  | Requirement |
@@ -63,9 +63,9 @@ The **IMPLEMENTATION REQUIREMENTS**, which are more technical stuff, are about:
 | I4  | Passwords must be encrypted using the **AES-256 algorithm**. |
 
 # ACCEPTANCE CRITERIA FOR IMPLEMENTATION REQUIREMENTS
-I1 is checked when entries are stored in a structured database file (not just temporary memory).
-I2 is checked when database queries (insert, update, delete, select) work using SQL syntax.
-I3 is checked when the source code of the application is implemented in Python.
+I1 is checked when entries are stored in a structured database file (not just temporary memory).<br>
+I2 is checked when database queries (insert, update, delete, select) work using SQL syntax.<br>
+I3 is checked when the source code of the application is implemented in Python.<br>
 I4 is checked when the verification of the code shows AES-256 encryption is applied when saving passwords.
 
 # POLITICAL, ECONOMIC AND ADMINISTRATIVE REASONS FOR IMPLEMENTATION REQUIREMENTS
