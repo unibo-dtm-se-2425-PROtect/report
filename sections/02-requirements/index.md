@@ -67,12 +67,14 @@ The **IMPLEMENTATION REQUIREMENTS**, which are more technical stuff, are about:
 | I2  | The database must be **SQL-compatible** for query execution. |
 | I3  | The system must be developed in **Python**. |
 | I4  | Passwords must be encrypted using the **AES-256 algorithm**. |
+| I5  | Master keys must be derived using PBKDF2 with SHA-512 as **key derivation standard**. |
 
 # ACCEPTANCE CRITERIA FOR IMPLEMENTATION REQUIREMENTS
 I1 is checked when entries are stored in a structured database file (not just temporary memory).<br>
 I2 is checked when database queries (insert, update, delete, select) work using SQL syntax.<br>
 I3 is checked when the source code of the application is implemented in Python.<br>
-I4 is checked when the verification of the code shows AES-256 encryption is applied when saving passwords.
+I4 is checked when the verification of the code shows AES-256 encryption is applied when saving passwords.<br>
+I5 is checked when the system uses PBKDF2 as the key derivation function, SHA-512 is explicitly used as the hash function in PBKDF2, the derived key length matches the required AES key size (e.g., 32 bytes for AES-256), the derivation process correctly combines the master password and the device secret (salt) and using the same master password and device secret produces consistent keys on repeated derivations.
 
 # POLITICAL, ECONOMIC AND ADMINISTRATIVE REASONS FOR IMPLEMENTATION REQUIREMENTS
 I1 Databases provide scalable and cost-effective storage compared to flat files, they make backup, auditing, and access management easier. Ensures compliance with privacy and data protection regulations (e.g., GDPR).<br>
