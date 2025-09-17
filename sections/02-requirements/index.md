@@ -55,6 +55,9 @@ The **NON-FUNCTIONAL REQUIREMENTS** touch:
 | NF4 | The system must use **strong encryption** to secure passwords. (e.g., AES-256 standard) |
 | NF5 | The system must **strengthen the master password** by applying PBKDF2 with high iteration count. (e.g., 1,000,000 rounds) |
 | NF6 | The system must **handle wrong insertions** in the database providing an error message instead of crushing. |
+| NF7 | The system must detect if configuration already exists to **avoid reconfiguration**. |
+| NF8 | The system must ensure that **errors during database creation** are caught and reported clearly. |
+| NF9 | The device secret must be generated using a secure **random mechanism** to guarantee uniqueness. |
 
 # ACCEPTANCE CRITERIA FOR NON-FUNCTIONAL REQUIREMENTS
 NF1 is checked when any attempt to delete, modify, or export entries requires re-entering the correct master password.<br>
@@ -62,7 +65,10 @@ NF2 is checked when buttons are clickable with a mouse, actions trigger confirma
 NF3 is checked when password fields show masked characters (e.g., ••••) instead of plain text, and never display stored values unencrypted.<br>
 NF4 is checked when all stored passwords are encrypted before saving and cannot be retrieved in plaintext without proper decryption.<br>
 NF5 is checked when the PBKDF2 function is called when deriving the master key, the iteration count is set to 1,000,000 or more, the derived key has the correct length (e.g., 32 bytes for AES-256) and verifying the same master password with the same device secret produces the same key.<br>
-NF6 is checked when the system displays a clear error message to the user explaining the failure and the application does not crash and remains responsive for further operations. 
+NF6 is checked when the system displays a clear error message to the user explaining the failure and the application does not crash and remains responsive for further operations.<br>
+NF7 is checked when a warning message pops up when trying to re-configurate a database that already exists and to which the application has already been connected to.<br>
+NF8 is checked when a setup failure is recognized by the system and an error message appears to notify the user to allow him to retry.<br>
+NF9 is checked when strong, widely recognized encryption standard (such as SHA) are utilized.<br>
 
 The **IMPLEMENTATION REQUIREMENTS**, which are more technical stuff, are about: 
 | ID  | Requirement |
