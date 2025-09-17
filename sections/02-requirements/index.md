@@ -49,13 +49,16 @@ The **NON-FUNCTIONAL REQUIREMENTS** touch:
 | NF2 | The system must provide a **user-friendly GUI**, with: clear buttons, mouse interaction, and message boxes for feedback (warnings, errors, success messages). |
 | NF3 | The system must ensure **passwords are never displayed in plain text**; they are automatically hidden when inserted or modified. |
 | NF4 | The system must use **strong encryption** to secure passwords. (e.g., AES-256 standard) |
+| NF5 | The system must **strengthen the master password** by applying PBKDF2 with high iteration count. (e.g., 1,000,000 rounds) |
+| NF6 | The system must **handle wrong insertions** in the database providing an error message instead of crushing. |
 
 # ACCEPTANCE CRITERIA FOR NON-FUNCTIONAL REQUIREMENTS
 NF1 is checked when any attempt to delete, modify, or export entries requires re-entering the correct master password.<br>
 NF2 is checked when buttons are clickable with a mouse, actions trigger confirmation dialogs, and success/error/warning messages are displayed.<br>
 NF3 is checked when password fields show masked characters (e.g., ••••) instead of plain text, and never display stored values unencrypted.<br>
-NF4 is checked when all stored passwords are encrypted before saving and cannot be retrieved in plaintext without proper decryption.
-<br>
+NF4 is checked when all stored passwords are encrypted before saving and cannot be retrieved in plaintext without proper decryption.<br>
+NF5 is checked when the PBKDF2 function is called when deriving the master key, the iteration count is set to 1,000,000 or more, the derived key has the correct length (e.g., 32 bytes for AES-256) and verifying the same master password with the same device secret produces the same key.<br>
+NF6 is checked when the system displays a clear error message to the user explaining the failure and the application does not crash and remains responsive for further operations. 
 
 The **IMPLEMENTATION REQUIREMENTS**, which are more technical stuff, are about: 
 | ID  | Requirement |
