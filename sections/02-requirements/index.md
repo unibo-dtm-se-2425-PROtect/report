@@ -78,19 +78,24 @@ The **IMPLEMENTATION REQUIREMENTS**, which are more technical stuff, are about:
 | I3  | The system must be developed in **Python**. |
 | I4  | Passwords must be encrypted using the **AES-256 algorithm**. |
 | I5  | Master keys must be derived using PBKDF2 with SHA-512 as **key derivation standard**. |
+| I6  | The system must **generate a device secret** using uppercase letters + digits, length ≥ 10 characters. |
+| I7  | The database must contain at least **two tables**: secrets (for hashed master password and device secret) and entries (for user credentials). |
 
 # ACCEPTANCE CRITERIA FOR IMPLEMENTATION REQUIREMENTS
 I1 is checked when entries are stored in a structured database file (not just temporary memory).<br>
 I2 is checked when database queries (insert, update, delete, select) work using SQL syntax.<br>
 I3 is checked when the source code of the application is implemented in Python.<br>
 I4 is checked when the verification of the code shows AES-256 encryption is applied when saving passwords.<br>
-I5 is checked when the system uses PBKDF2 as the key derivation function, SHA-512 is explicitly used as the hash function in PBKDF2, the derived key length matches the required AES key size (e.g., 32 bytes for AES-256), the derivation process correctly combines the master password and the device secret (salt) and using the same master password and device secret produces consistent keys on repeated derivations.
+I5 is checked when the system uses PBKDF2 as the key derivation function, SHA-512 is explicitly used as the hash function in PBKDF2, the derived key length matches the required AES key size (e.g., 32 bytes for AES-256), the derivation process correctly combines the master password and the device secret (salt) and using the same master password and device secret produces consistent keys on repeated derivations.<br>
+I6 is checked when the generated device secret respects the parameters.<br>
+I7 is checked when the two tables are correctly created at initial setup and contain all needed fields.<br>
 
 # POLITICAL, ECONOMIC AND ADMINISTRATIVE REASONS FOR IMPLEMENTATION REQUIREMENTS
 I1 Databases provide scalable and cost-effective storage compared to flat files, they make backup, auditing, and access management easier. Ensures compliance with privacy and data protection regulations (e.g., GDPR).<br>
 I2 SQL databases are widely available and free/open-source, lowering costs. Staff and developers are already familiar with SQL, reducing training effort. SQL is a well-established industry standard, reducing risk of vendor lock-in.<br>
 I3 Python is free and open-source, reducing licensing costs. It flatters a large community support and abundant libraries speed up development and maintenance. Python is widely accepted in government, academia, and industry for secure applications.<br>
 I4 Using a well-tested open algorithm avoids costs of proprietary solutions and reduces risk of breaches (which are financially damaging). It simplifies audits and certifications since AES-256 is widely recognized by IT security standards. AES-256 is an international encryption standard, endorsed by organizations like NIST, ensuring compliance with security policies.<br>
+
     
         - ...otherwise, implementation choices should emerge *as a consequence of* design (and therefore described in the design section).
 - If there are domain-specific terms, these should be explained in a **glossary**.
