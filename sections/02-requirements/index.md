@@ -64,6 +64,8 @@ The **NON-FUNCTIONAL REQUIREMENTS** touch:
 | NF7 | The system must detect if configuration already exists to **avoid reconfiguration**. |
 | NF8 | The system must ensure that **errors during database creation** are caught and reported clearly. |
 | NF9 | The device secret must be generated using a secure **random mechanism** to guarantee uniqueness. |
+| NF10| Generated passwords copied to clipboard should only reside **temporarily** (this is implied via pyperclip). |
+| NF11| Command-line errors should provide clear guidance for missing required fields. |
 
 # ACCEPTANCE CRITERIA FOR NON-FUNCTIONAL REQUIREMENTS
 NF1 is checked when any attempt to delete, modify, or export entries requires re-entering the correct master password.<br>
@@ -75,6 +77,8 @@ NF6 is checked when the system displays a clear error message to the user explai
 NF7 is checked when a warning message pops up when trying to re-configurate a database that already exists and to which the application has already been connected to.<br>
 NF8 is checked when a setup failure is recognized by the system and an error message appears to notify the user to allow him to retry.<br>
 NF9 is checked when strong, widely recognized encryption standard (such as SHA) are utilized.<br>
+NF10 is checked when copying to clipboard does not last forever yet has a time limit to safeguard passwords' secrecy.<br>
+NF11 is checked when, if something is missing in the row, the system prints an explicit error message identifying which field is missing, or eventually lists multiple missing fields and stops the operation if it is incomplete but does not crash.<br>
 
 The **IMPLEMENTATION REQUIREMENTS**, which are more technical stuff, are about: 
 | ID  | Requirement |
@@ -87,6 +91,8 @@ The **IMPLEMENTATION REQUIREMENTS**, which are more technical stuff, are about:
 | I6  | The system must **generate a device secret** using uppercase letters + digits, length ≥ 10 characters. |
 | I7  | The database must contain at least **two tables**: secrets (for hashed master password and device secret) and entries (for user credentials). |
 | I8  | The system must initially connect to a **database server running on localhost**. |
+| I9  | The system must use **argparse** for handling command-line options. |
+| I10 | Passwords generated must be copyable to clipboard via **pyperclip**. |
 
 # ACCEPTANCE CRITERIA FOR IMPLEMENTATION REQUIREMENTS
 I1 is checked when entries are stored in a structured database file (not just temporary memory).<br>
@@ -97,12 +103,16 @@ I5 is checked when the system uses PBKDF2 as the key derivation function, SHA-51
 I6 is checked when the generated device secret respects the parameters.<br>
 I7 is checked when the two tables are correctly created at initial setup and contain all needed fields.<br>
 I8 is checked when, on startup, the application attempts a connection to a MySQL (or SQL-compatible) database with host set to localhost<br>
+I9 is checked when the app accepts commands passed through CLI (e.g., python pm.py add -s sitename -u url -l username -e email), flags (e.g., -s, -l) are parsed correctly, the system provides a help text (--help) and if a user omits required arguments, the system displays clear error messages without crashing.<br>
+I10 is checked when a generated/retrieved password is automatically copied to clipboard, the user is notified of that, the password stays in the clipboard until replaced or cleared by the user/system, the application does not expose the password on-screen unless explicitly requested. If the clipboard functionality fails, an error message gets displayed.<br>
 
 # POLITICAL, ECONOMIC AND ADMINISTRATIVE REASONS FOR IMPLEMENTATION REQUIREMENTS
 I1 Databases provide scalable and cost-effective storage compared to flat files, they make backup, auditing, and access management easier. Ensures compliance with privacy and data protection regulations (e.g., GDPR).<br>
 I2 SQL databases are widely available and free/open-source, lowering costs. Staff and developers are already familiar with SQL, reducing training effort. SQL is a well-established industry standard, reducing risk of vendor lock-in.<br>
 I3 Python is free and open-source, reducing licensing costs. It flatters a large community support and abundant libraries speed up development and maintenance. Python is widely accepted in government, academia, and industry for secure applications.<br>
 I4 Using a well-tested open algorithm avoids costs of proprietary solutions and reduces risk of breaches (which are financially damaging). It simplifies audits and certifications since AES-256 is widely recognized by IT security standards. AES-256 is an international encryption standard, endorsed by organizations like NIST, ensuring compliance with security policies.<br>
+I9 Increases trust and transparency, reduces maintenance costs, since future developers won’t need to rewrite argument handling (using a standard library like argparse is cheaper than custom parsers), having standardized CLI parsing makes the tool easier to maintain, document, and test.<br>
+I10 Aligns with privacy and security regulations, improves user experience and productivity (fewer failed logins, faster workflows), simplifies daily workflow for users.<br>
 
     
         - ...otherwise, implementation choices should emerge *as a consequence of* design (and therefore described in the design section).
