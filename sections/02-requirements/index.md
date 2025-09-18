@@ -80,6 +80,7 @@ The **IMPLEMENTATION REQUIREMENTS**, which are more technical stuff, are about:
 | I5  | Master keys must be derived using PBKDF2 with SHA-512 as **key derivation standard**. |
 | I6  | The system must **generate a device secret** using uppercase letters + digits, length ≥ 10 characters. |
 | I7  | The database must contain at least **two tables**: secrets (for hashed master password and device secret) and entries (for user credentials). |
+| I8  | The system must initially connect to a **database server running on localhost**. |
 
 # ACCEPTANCE CRITERIA FOR IMPLEMENTATION REQUIREMENTS
 I1 is checked when entries are stored in a structured database file (not just temporary memory).<br>
@@ -89,6 +90,7 @@ I4 is checked when the verification of the code shows AES-256 encryption is appl
 I5 is checked when the system uses PBKDF2 as the key derivation function, SHA-512 is explicitly used as the hash function in PBKDF2, the derived key length matches the required AES key size (e.g., 32 bytes for AES-256), the derivation process correctly combines the master password and the device secret (salt) and using the same master password and device secret produces consistent keys on repeated derivations.<br>
 I6 is checked when the generated device secret respects the parameters.<br>
 I7 is checked when the two tables are correctly created at initial setup and contain all needed fields.<br>
+I8 is checked when, on startup, the application attempts a connection to a MySQL (or SQL-compatible) database with host set to localhost<br>
 
 # POLITICAL, ECONOMIC AND ADMINISTRATIVE REASONS FOR IMPLEMENTATION REQUIREMENTS
 I1 Databases provide scalable and cost-effective storage compared to flat files, they make backup, auditing, and access management easier. Ensures compliance with privacy and data protection regulations (e.g., GDPR).<br>
