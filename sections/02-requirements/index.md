@@ -33,6 +33,9 @@ The **FUNCTIONAL REQUIREMENTS** involve:
 | F8  | The system must **validate input** so that the required fields (sitename, URL, username/email) are not empty before saving. |
 | F9  | The system must allow **initial setup** by creating required database schema and tables. |
 | F10 | The user must **create and confirm a master password** during initial configuration. |
+| F11 | The system must allow users to **retrieve entries** by providing one or more fields (sitename, URL, email, username). |
+| F12 | Passwords should be automatically **copied to clipboard** when retrieved to preserve secrecy. |
+| F13 | If no email is provided when adding an entry, it must **default to an empty string**. |
 
 # ACCEPTANCE CRITERIA FOR FUNCTIONAL REQUIREMENTS
 F1 is checked when the user is prompted to set a master password on first use and cannot access entries without entering it correctly.<br>
@@ -45,6 +48,9 @@ F7 is checked when a user inserts a new entry and an error message pups up when 
 F8 is checked when the user tries to save a new entry or a modified row and an error message pops up warning that some of the compulsory fields appear empty.<br>
 F9 is checked when a setup window pops up at the first launch of the application made by the user.<br>
 F10 is checked when during the initial configuration the system allows the user to **set a master password** that will be used at every access.<br>
+F11 is checked when the system returns to the user the asked row depending on the field(s) inserted.<br>
+F12 is checked when it is enough for the user to paste a password where needed without writing it manually after password retrieval from the app.<br>
+F13 is checked when the saving of a new/modified entry is successful even though no email has been inserted and the field is allowed to be empty.<br>
 
 The **NON-FUNCTIONAL REQUIREMENTS** touch: 
 | ID  | Requirement |
