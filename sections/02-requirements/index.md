@@ -101,6 +101,8 @@ The **IMPLEMENTATION REQUIREMENTS**, which are more technical stuff, are about:
 | I8  | The system must initially connect to a **database server running on localhost**. |
 | I9  | The system must use **argparse** for handling command-line options. |
 | I10 | Passwords generated must be copyable to clipboard via **pyperclip**. |
+| I11 | The system must use **Tkinter with ttkbootstrap** for theming. |
+| I12 | The system must use **tkinter.messagebox** to display informational and error messages. |
 
 # ACCEPTANCE CRITERIA FOR IMPLEMENTATION REQUIREMENTS
 I1 is checked when entries are stored in a structured database file (not just temporary memory).<br>
@@ -113,6 +115,8 @@ I7 is checked when the two tables are correctly created at initial setup and con
 I8 is checked when, on startup, the application attempts a connection to a MySQL (or SQL-compatible) database with host set to localhost<br>
 I9 is checked when the app accepts commands passed through CLI (e.g., python pm.py add -s sitename -u url -l username -e email), flags (e.g., -s, -l) are parsed correctly, the system provides a help text (--help) and if a user omits required arguments, the system displays clear error messages without crashing.<br>
 I10 is checked when a generated/retrieved password is automatically copied to clipboard, the user is notified of that, the password stays in the clipboard until replaced or cleared by the user/system, the application does not expose the password on-screen unless explicitly requested. If the clipboard functionality fails, an error message gets displayed.<br>
+I11 is checked when the whole GUI is created by means of the quoted Python library.<br>
+I12 is checked when message boxes showed on display to send visible warnings to the user adopt tkinter formats.<br> 
 
 # POLITICAL, ECONOMIC AND ADMINISTRATIVE REASONS FOR IMPLEMENTATION REQUIREMENTS
 I1 Databases provide scalable and cost-effective storage compared to flat files, they make backup, auditing, and access management easier. Ensures compliance with privacy and data protection regulations (e.g., GDPR).<br>
@@ -121,11 +125,11 @@ I3 Python is free and open-source, reducing licensing costs. It flatters a large
 I4 Using a well-tested open algorithm avoids costs of proprietary solutions and reduces risk of breaches (which are financially damaging). It simplifies audits and certifications since AES-256 is widely recognized by IT security standards. AES-256 is an international encryption standard, endorsed by organizations like NIST, ensuring compliance with security policies.<br>
 I9 Increases trust and transparency, reduces maintenance costs, since future developers won’t need to rewrite argument handling (using a standard library like argparse is cheaper than custom parsers), having standardized CLI parsing makes the tool easier to maintain, document, and test.<br>
 I10 Aligns with privacy and security regulations, improves user experience and productivity (fewer failed logins, faster workflows), simplifies daily workflow for users.<br>
+I11 and I12 comprehend a public and easy-to-retrieve and user-friendly library available on Python that just needs to be imported in the project code, no additional costs or license.<br>
 
     
-        - ...otherwise, implementation choices should emerge *as a consequence of* design (and therefore described in the design section).
+        **- ...otherwise, implementation choices should emerge *as a consequence of* design (and therefore described in the design section).**
 - If there are domain-specific terms, these should be explained in a **glossary**.
-- Each requirement must have its own **acceptance criteria**.
-    - These will be important for the validation phase. 
+
 
 > You may consider adding a use-case diagram here (via PlantUML) to better visualize the requirements and their relationships
