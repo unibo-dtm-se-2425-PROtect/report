@@ -36,6 +36,10 @@ The **FUNCTIONAL REQUIREMENTS** involve:
 | F11 | The system must allow users to **retrieve entries** by providing one or more fields (sitename, URL, email, username). |
 | F12 | Passwords should be automatically **copied to clipboard** when retrieved to preserve secrecy. |
 | F13 | If no email is provided when adding an entry, it must **default to an empty string**. |
+| F14 | The system must provide a **graphical login window** with username and password fields and a submit button. |
+| F15 | The system must allow the user to **press Enter** to submit login. |
+| F16 | The system must inform the user of login **(success or) maybe I just want failure because the success is visible** failure through **popup messages**. |
+| F17 | After login attempt (success or failure), input **fields must be cleared** for security. |
 
 # ACCEPTANCE CRITERIA FOR FUNCTIONAL REQUIREMENTS
 F1 is checked when the user is prompted to set a master password on first use and cannot access entries without entering it correctly.<br>
@@ -47,10 +51,14 @@ F6 is checked when an export process produces a file containing the current entr
 F7 is checked when a user inserts a new entry and an error message pups up when the field is identical to another one in an existing row.<br>
 F8 is checked when the user tries to save a new entry or a modified row and an error message pops up warning that some of the compulsory fields appear empty.<br>
 F9 is checked when a setup window pops up at the first launch of the application made by the user.<br>
-F10 is checked when during the initial configuration the system allows the user to **set a master password** that will be used at every access.<br>
+F10 is checked when during the initial configuration the system allows the user to set a master password that will be used at every access.<br>
 F11 is checked when the system returns to the user the asked row depending on the field(s) inserted.<br>
 F12 is checked when it is enough for the user to paste a password where needed without writing it manually after password retrieval from the app.<br>
 F13 is checked when the saving of a new/modified entry is successful even though no email has been inserted and the field is allowed to be empty.<br>
+F14 is checked when a graphical window with a field for inserting username and a field for inserting the relative master password is showed.<br> 
+F15 is checked when the combination of username and password can be submitted through a button quoting "ENTER" **or by pressing key "enter" on keyboard???**.<br>
+F16 is checked when after login failure an error message box pops up.<br>
+F17 is checked when the system clears up the data initially put in the username and password field, independently from successful or failing process.<br>
 
 The **NON-FUNCTIONAL REQUIREMENTS** touch: 
 | ID  | Requirement |
