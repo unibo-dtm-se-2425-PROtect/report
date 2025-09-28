@@ -21,7 +21,7 @@ The application is best described as following **3-Tier layered architecture**:
 - DATA LAYER: it is in charge of DB connection and queries handling, including a mock DB implementation for testing without accessing the real DB (otherwise we should remember to delete the created connection every time; the result of avoiding this step would be unsuccessful and incomplete testing and general conflicts during the implementation).
 
 ### Diagram for the architecture
-!["Visual representation of the architecture"](pictures/archit-diagram.jpeg)
+!["Visual representation of the architecture"](report/pictures/archit-diagram.jpeg)
 
 - Describe the responsibilities of each architectural component
 
