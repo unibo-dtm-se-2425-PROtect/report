@@ -23,9 +23,18 @@ The application is best described as following **3-Tier layered architecture**:
 ### Diagram for the architecture
 !["Visual representation of the architecture"](../../pictures/archit-diagram.jpeg)
 
-- Describe the responsibilities of each architectural component
+### Responsibilities of architectural components
+GUIview.py + Loginview.py -> it is in charge of rendering an easy-to-understand interface to the user, built via ttkboostrapt (tkinter) library and it's showed onto the display the user is interacting with (in our case, a computer desktop)
+CLI -> includes the whole codebase to use the application via command-line interface (always shown via display) without opening a GUI. it is connected to the rich library to display messages in the CLI in a nicer and colorful way also to let the user better understand what is happening
+AES256util.py -> utility directly imported from github to insert the encryption base as reference for the rest of the project code (it is coupled with cryptography libraries) 
+config.py -> represents the basic configuration of the application in order to create the database and the related tables ("SECRETS" for the master passwords coupled with salts for each user and "ENTRIES" to keep a record of all websites accessed by the users by means of a password). It connects to dbconfig.py to make all the configurations possible. It is also the initial configuration to choose the master password the first time and it generates the device secret (salt) associated to it to make the system safer and at each access it automatically checks for the correspondance. 
+dbconfig.py -> creates the connection with mysql.connector in order to establish a connection to the db every time it is needed (also useful for first configuration)
+retrieve.py -> defines connection and queries to retrieve entries from the database and never shows the password in clear but copy to clipboard via pyperclip
+add.py -> it is the piece of code to add a new row in the table "ENTRIES" after checking if it already exists. This is possible if the user inserts the right master password, first. It is done to provide a further level of esecurity becasue it is not said that only because the application is already running the real owner of the account is still sitting in front of the desktop, and maybe he did not use the button "Lock" before stepping away and someone may have access to the hardware
+GUIcontroller.py è Logincontroller.py -> the logic behind the actions that trigger the GUI (ex. puts into communication the view and the model when an action is triggered by the user by means of the GUI ex. clicking on a button). There is also the controller for the Login interface to access the application with the correct account (authentication).
+GUImodel.py -> it's in charge of the queries to interact with the database and consequently performing CURD and Import/Export operations (and any needed feature)
 
-> UML Components diagrams are welcome here
+
 
 ## Infrastructure (mostly applies to distributed systems)
 
@@ -42,8 +51,41 @@ The application is best described as following **3-Tier layered architecture**:
 ## Modelling
 
 ### Domain driven design (DDD) modelling
+We partition the domain of PROtect into three bounded contexts: 
+- **Security and Vault Context (Core Domain)**: This is the heart of the application since it manages sensitive user data and enforces strong cryptography. It is responsible for Master password setup and validation, AES-256 encryption and decryption of stored entries for what it concerns passwords (via AES256util.py, PBKDF2, and other crypto utilities), secure management of the entries table in the database.
+- **User Interaction Context (Supporting Subdomain)**: Provides users with ways to interact with the vault, both via command line and a graphical interface. It is responsible for CLI interface for adding, retrieving, and managing entries, GUI implementation following the MVC pattern: a Core GUI (GUIview.py, GUImodel.py, GUIcontroller.py) for main operations; and a Login/Signup GUI (Loginview.py, Logincontroller.py, Loginmodel.py) for first authentication.
+- **Database context**: Encapsulates database configuration and storage details, which are necessary but not unique to the problem domain. It is responsible for managing MySQL connections and configuration (dbconfig.py especially for first configuration, and then general config.py), storing and retrieving encrypted entries and user data, exposing durable storage operations to the core logic.
 
-- Which are the bounded contexts of your domain? 
+### Domain Contexts
+**Security and Vault Context**
+**ENTITIES**
+- ENTRY (from entries table, managed in add.py and retrieve.py): identified by ID, website name, URL, username, email, -encrypted- password
+- USER (implicitly from secrets table in config.py): has hashed master password and device secret.
+**VALUE OBJECTS**
+- MASTERKEY (in add.computeMasterKey / retrieve.computeMasterKey): derived from master password + device secret, immutable.
+- ENCRYPTEDPASSWORD (from AES256util.encrypt/decrypt): base64-encoded ciphertext including IV, always handled as a whole.
+**AGGREGATES**
+- VAULT (implicit in how pm.py orchestrates add/retrieve): root aggregate managing Entry objects, controlled by verifying the MasterPassword.
+**DOMAIN SERVICES**
+- ENCRYPTION SERVICE (AES256util.encrypt/decrypt): encapsulates AES-256 encryption/decryption.
+- AUTHENTICATION SERVICE (pm.inputAndValidateMasterPassword): validates master password hash against DB, returns the MasterKey material.
+<br>
+
+**User Interaction Context**
+**ENTITIES**
+- SESSION (implicit in CLI flow of pm.py): a logged-in state after password verification.
+**VALUE OBJECTS**
+- Command (from argparse in pm.py): immutable representation of user intent (add/extract).
+- ResultView (from retrieve.retrieveEntries): tabular CLI view of entries.
+**AGGREGATES**
+- Not explicit here; controllers orchestrate flows.
+**DOMAIN SERVICES**
+- Controller (pm.py, GUIcontroller, Logincontroller): interprets input, validates, and delegates to domain functions.
+- View (rich tables, GUIview.py, Loginview.py): presentation of vault data.
+<br>
+
+
+  
 - Which are domain concepts (entities, value objects, aggregates, etc.) for each context?
 - Are there repositories, services, or factories for each/any domain concept?
 - What are the relavant domain events in each context?
