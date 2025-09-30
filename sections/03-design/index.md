@@ -64,58 +64,85 @@ VALUE OBJECT -> we only care about the attributes, without ID so interchangeable
 AGGREGATE ROOT -> a sort of entity, but groups simpler entities or value objects <br>
 FACTORY -> objects aimed at creating other objects <br>
 REPOSITORY -> objects mediating the persistent storage/retrieval of other objects (ex. supports CRUD operations) <br>
-SERVICE -> functional objects encapsulating the business logic of the software. It is not forcely about web services, but to whatever python object encapsulating the business logic of other entities <br>
+SERVICE -> functional objects encapsulating the business logic of the software. It is not forcedly about web services, but to whatever python object encapsulating the business logic of other entities <br>
+DOMAIN EVENT -> capture something that happened in the domain that the system wants to remember or react to.<br>
 <br>
 **Security and Vault Context**
 **ENTITIES**
 - ENTRY (from entries table, managed in add.py and retrieve.py): identified by ID, website name, URL, username, email, -encrypted- password
 - USER (implicitly from secrets table in config.py): has hashed master password and device secret.
 **VALUE OBJECTS**
-- MASTERKEY (in add.computeMasterKey/retrieve.computeMasterKey): derived from master password + device secret, immutable.
-- ENCRYPTED PASSWORD (from AES256util.encrypt/decrypt): base64-encoded ciphertext.
+- MASTERKEY (in add.computeMasterKey/retrieve.computeMasterKey): derived from master password + device secret, immutable and interchangeable as long as values match
+- ENCRYPTED PASSWORD (from AES256util.encrypt/decrypt): base64-encoded ciphertext, treated as a replaceable value
 **FACTORIES**
-- Not explicit, but we could consider "ComputeMasterKey" a kinf od factory for MasterKey since it produces the derived value object. 
-**AGGREGATES**
-- VAULT (implicit in how pm.py orchestrates add/retrieve): root aggregate managing Entry objects, controlled by verifying the MasterPassword.
+- ComputeMasterKey (in add.py, retrieve.py): factory for MasterKey value objects
+- generateDeviceSecret (in config.py): factory for a DS value object
+**AGGREGATE ROOTS**
+- VAULT (implicit in how pm.py orchestrates add/retrieve): root aggregate managing Entry objects, controlled by verifying the MasterPassword
+- USER SECRETS → aggregate grouping hashed masterpassword and DS (from secrets table), root for user authentication
 **SERVICES**
-- ENCRYPTION SERVICE (AES256util.encrypt/decrypt): encapsulates AES-256 encryption/decryption.
-- AUTHENTICATION SERVICE (pm.inputAndValidateMasterPassword): validates master password hash against DB, returns the MasterKey material.
+- ENCRYPTION SERVICE (AES256util.encrypt/decrypt): encapsulates AES-256 logic
+- AUTHENTICATION SERVICE (pm.inputAndValidateMasterPassword): validates master password hash against DB, returns the MasterKey material (the associated secrets)
 - GENERATION OF DEVICE SECRET DS: the salt associated to the masterpassword
+- PASSWORD VALIDATION SERVICE: checks on password policy
 **REPOSITORY**
 - ENTRIES TABLE (in MySQL DB): some of the CRUD operations (e.g., retrieve.retrieveEntries)
-- SECRETS TABLE (in MYSQL DB)
+- SECRETS TABLE (in MYSQL DB): stores and retrieves and checks users' secrets
+**DOMAIN EVENTS: meaningful happenings around secrets and entries**
+- MasterPasswordSet: a new user registered, master password chosen and hashed, device secret generated.
+- EntryAdded: a new password entry was created and stored securely.
+- EntryDuplicatedAttempted: the system detected that an identical entry already exists.
+- PasswordRetrieved: a password was decrypted and exposed only to clipboard.
+- AuthenticationFailed: login attempt with wrong master password.
+- AuthenticationSucceeded: master password verified, session established.
 <br>
 
 **User Interaction Context**
 **ENTITIES**
-- LOGIN/SIGNUP SESSION (Logincontroller.py, Loginview.py, Loginmodel.py): managed both by GUI and CLI
-- INTERNAL SESSION (GUIview.py, GUIcontroller.py, GUImodel.py): a logged-in state after password verification in an environment where to perform CRUD, import/export operations 
+- LOGIN/SIGNUP SESSION: managed both by GUI and CLI
+- INTERNAL SESSION: a logged-in state after password verification in an environment where to perform CRUD, import/export operations 
 **VALUE OBJECTS**
-- argparse in pm.py: immutable representation of user intent (add/extract).
-- ResultView (from retrieve.retrieveEntries): tabular CLI view of entries.
+- ARGPARSE in pm.py: immutable representation of user intent
+- ResultView (ex. rich): tabular CLI view of entries; represents query results also on GUI, interchangeable across sessions.
 **AGGREGATES**
-- CONTROLLER (implicit, business logic): orchestrates operations
+- None strongly present
+**FACTORIES**
+- None strongly present because CLI/GUI don't create domain objects directly
 **SERVICES**
-- Controller (pm.py, GUIcontroller.py, Logincontroller.py): interprets input, validates, and delegates to domain functions.
-- View (rich tables, GUIview.py, Loginview.py): presentation of vault data.
+- APPLICATION SERVICE: orchestrates flow from user input -> domain logic -> persistence (db) ex. pm.py
+- CONTROLLER SERVICE (GUIcontroller.py, Logincontroller.py): another application service, but it mediates between user actions and domain
+- VIEW SERVICE (rich tables in CLI, GUIview.py, Loginview.py): presentation of domain objects
+**DOMAIN EVENTS: reflect user-facing activities in CLI or GUI flows**
+- CommandIssued: user invoked add, extract, etc (CRUD + import/export/lock).
+- ResultsDisplayed: search results shown in table form.
+- SessionStarted: after successful authentication in CLI or GUI.
+- SessionEnded: implicit (after command completes, session closes).
+- Login/RegistrationUIAccessed (planned for GUI): when login/signup view is opened).
 <br>
 
 **Database Context**
 **ENTITIES**
-- DatabaseConnection (dbconfig.py): MySQL session.
-- Entries Table: DB representing entries for the user.
-- Secrets Table: DB representing master password hash and device secret.
+- DATABASE CONNECTION (dbconfig.py): the active MySQL session identified by connection parameters
+- ENTRIES TABLE: DB representing entries for the user.
+- SECRETS TABLE: DB representing master password hash and device secret.
 **VALUE OBJECTS**
-- dbconfig parameters: connection details like website name, URL, username, email, password
+- dbconfig parameters: connection details like website name, URL, username, email, password (immutable - does not change after its creation - and interchangeable - only attributes matter, no identifier)
 **AGGREGATES**
-- None
-**DOMAIN SERVICES**
-- Repository (split across add.py, retrieve.py, config.py): CRUD operations for the app (insert new entry and secrets, get the queried entry)
+- None because this layer implements the infrastructure
+**FACTORIES**
+- None either because connections are opened procedurally and not modeled as factories
+**REPOSITORIES**
+- Implicit: persistence logic is spread across modules (config, add, retrieve) but collectively behaves as Entries and Secrets repositories.
+**SERVICES**
+- DB CONNECTION SERVICE: encapsulates MySQL connection logic
+**DOMAIN EVENTS: more technical but still meaningful at a system level**
+- DatabaseConnected: connection successfully established.
+- DatabaseConnectionFailed: connection attempt failed.
+- DatabaseCreated: schema PROtect created.
+- TableCreated: entries and/or secrets table created.
+- DatabaseWriteCommitted: new row committed.
+- DatabaseQueryExecuted: any time SQL is run
 
-
-
-- Are there repositories, services, or factories for each/any domain concept?
-- What are the relavant domain events in each context?
 
 > Context map diagrams are welcome here
 
