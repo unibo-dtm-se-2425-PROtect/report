@@ -51,42 +51,69 @@ GUImodel.py -> it's in charge of the queries to interact with the database and c
 ## Modelling
 
 ### Domain driven design (DDD) modelling
+The purpose of the DDD is a way to give a structure to the many operations to implement in the code, and to give a good structure we need to decompose functionalities into classes. 
 We partition the domain of PROtect into three bounded contexts: 
 - **Security and Vault Context (Core Domain)**: This is the heart of the application since it manages sensitive user data and enforces strong cryptography. It is responsible for Master password setup and validation, AES-256 encryption and decryption of stored entries for what it concerns passwords (via AES256util.py, PBKDF2, and other crypto utilities), secure management of the entries table in the database.
 - **User Interaction Context (Supporting Subdomain)**: Provides users with ways to interact with the vault, both via command line and a graphical interface. It is responsible for CLI interface for adding, retrieving, and managing entries, GUI implementation following the MVC pattern: a Core GUI (GUIview.py, GUImodel.py, GUIcontroller.py) for main operations; and a Login/Signup GUI (Loginview.py, Logincontroller.py, Loginmodel.py) for first authentication.
-- **Database context**: Encapsulates database configuration and storage details, which are necessary but not unique to the problem domain. It is responsible for managing MySQL connections and configuration (dbconfig.py especially for first configuration, and then general config.py), storing and retrieving encrypted entries and user data, exposing durable storage operations to the core logic.
+- **Database context**: Encapsulates database configuration and storage details, which are necessary but not unique to the problem domain. It is responsible for managing MySQL connections and configuration (dbconfig.py especially for first configuration, and then general config.py), storing and retrieving encrypted entries and user data, exposing durable storage operations to the core logic.<br>
 
-### Domain Contexts
+
+### Domain Concepts
+ENTITY -> object with an identifier, can change overtime <br>
+VALUE OBJECT -> we only care about the attributes, without ID so interchangeable <br>
+AGGREGATE ROOT -> a sort of entity, but groups simpler entities or value objects <br>
+FACTORY -> objects aimed at creating other objects <br>
+REPOSITORY -> objects mediating the persistent storage/retrieval of other objects (ex. supports CRUD operations) <br>
+SERVICE -> functional objects encapsulating the business logic of the software. It is not forcely about web services, but to whatever python object encapsulating the business logic of other entities <br>
+<br>
 **Security and Vault Context**
 **ENTITIES**
 - ENTRY (from entries table, managed in add.py and retrieve.py): identified by ID, website name, URL, username, email, -encrypted- password
 - USER (implicitly from secrets table in config.py): has hashed master password and device secret.
 **VALUE OBJECTS**
-- MASTERKEY (in add.computeMasterKey / retrieve.computeMasterKey): derived from master password + device secret, immutable.
-- ENCRYPTEDPASSWORD (from AES256util.encrypt/decrypt): base64-encoded ciphertext including IV, always handled as a whole.
+- MASTERKEY (in add.computeMasterKey/retrieve.computeMasterKey): derived from master password + device secret, immutable.
+- ENCRYPTED PASSWORD (from AES256util.encrypt/decrypt): base64-encoded ciphertext.
+**FACTORIES**
+- Not explicit, but we could consider "ComputeMasterKey" a kinf od factory for MasterKey since it produces the derived value object. 
 **AGGREGATES**
 - VAULT (implicit in how pm.py orchestrates add/retrieve): root aggregate managing Entry objects, controlled by verifying the MasterPassword.
-**DOMAIN SERVICES**
+**SERVICES**
 - ENCRYPTION SERVICE (AES256util.encrypt/decrypt): encapsulates AES-256 encryption/decryption.
 - AUTHENTICATION SERVICE (pm.inputAndValidateMasterPassword): validates master password hash against DB, returns the MasterKey material.
+- GENERATION OF DEVICE SECRET DS: the salt associated to the masterpassword
+**REPOSITORY**
+- ENTRIES TABLE (in MySQL DB): some of the CRUD operations (e.g., retrieve.retrieveEntries)
+- SECRETS TABLE (in MYSQL DB)
 <br>
 
 **User Interaction Context**
 **ENTITIES**
-- SESSION (implicit in CLI flow of pm.py): a logged-in state after password verification.
+- LOGIN/SIGNUP SESSION (Logincontroller.py, Loginview.py, Loginmodel.py): managed both by GUI and CLI
+- INTERNAL SESSION (GUIview.py, GUIcontroller.py, GUImodel.py): a logged-in state after password verification in an environment where to perform CRUD, import/export operations 
 **VALUE OBJECTS**
-- Command (from argparse in pm.py): immutable representation of user intent (add/extract).
+- argparse in pm.py: immutable representation of user intent (add/extract).
 - ResultView (from retrieve.retrieveEntries): tabular CLI view of entries.
 **AGGREGATES**
-- Not explicit here; controllers orchestrate flows.
-**DOMAIN SERVICES**
-- Controller (pm.py, GUIcontroller, Logincontroller): interprets input, validates, and delegates to domain functions.
+- CONTROLLER (implicit, business logic): orchestrates operations
+**SERVICES**
+- Controller (pm.py, GUIcontroller.py, Logincontroller.py): interprets input, validates, and delegates to domain functions.
 - View (rich tables, GUIview.py, Loginview.py): presentation of vault data.
 <br>
 
+**Database Context**
+**ENTITIES**
+- DatabaseConnection (dbconfig.py): MySQL session.
+- Entries Table: DB representing entries for the user.
+- Secrets Table: DB representing master password hash and device secret.
+**VALUE OBJECTS**
+- dbconfig parameters: connection details like website name, URL, username, email, password
+**AGGREGATES**
+- None
+**DOMAIN SERVICES**
+- Repository (split across add.py, retrieve.py, config.py): CRUD operations for the app (insert new entry and secrets, get the queried entry)
 
-  
-- Which are domain concepts (entities, value objects, aggregates, etc.) for each context?
+
+
 - Are there repositories, services, or factories for each/any domain concept?
 - What are the relavant domain events in each context?
 
