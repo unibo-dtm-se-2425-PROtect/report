@@ -74,18 +74,25 @@ The **IMPLEMENTATION REQUIREMENTS**, which are more technical stuff, are about:
 | I12 | The system must use **tkinter.messagebox** to display informational and error messages. | checked when message boxes showed on display to send visible warnings to the user adopt tkinter formats. |
 <br>
 
-# POLITICAL, ECONOMIC AND ADMINISTRATIVE REASONS FOR IMPLEMENTATION REQUIREMENTS
-I1 Databases provide scalable and cost-effective storage compared to flat files, they make backup, auditing, and access management easier. Ensures compliance with privacy and data protection regulations (e.g., GDPR).<br>
-I2 SQL databases are widely available and free/open-source, lowering costs. Staff and developers are already familiar with SQL, reducing training effort. SQL is a well-established industry standard, reducing risk of vendor lock-in.<br>
-I3 Python is free and open-source, reducing licensing costs. It flatters a large community support and abundant libraries speed up development and maintenance. Python is widely accepted in government, academia, and industry for secure applications.<br>
-I4 Using a well-tested open algorithm avoids costs of proprietary solutions and reduces risk of breaches (which are financially damaging). It simplifies audits and certifications since AES-256 is widely recognized by IT security standards. AES-256 is an international encryption standard, endorsed by organizations like NIST, ensuring compliance with security policies.<br>
-I9 Increases trust and transparency, reduces maintenance costs, since future developers won’t need to rewrite argument handling (using a standard library like argparse is cheaper than custom parsers), having standardized CLI parsing makes the tool easier to maintain, document, and test.<br>
-I10 Aligns with privacy and security regulations, improves user experience and productivity (fewer failed logins, faster workflows), simplifies daily workflow for users.<br>
-I11 and I12 comprehend a public and easy-to-retrieve and user-friendly library available on Python that just needs to be imported in the project code, no additional costs or license.<br>
+## POLITICAL, ECONOMIC AND ADMINISTRATIVE REASONS FOR IMPLEMENTATION REQUIREMENTS
+**I1**, **I7** and **I8** Databases provide scalable and cost-effective storage compared to flat files, they make backup, auditing, and access management easier. Ensures compliance with privacy and data protection regulations (e.g., GDPR).<br>
+**I2** and **I8** SQL databases are widely available and free/open-source, lowering costs. Staff and developers are already familiar with SQL, reducing training effort. SQL is a well-established industry standard, reducing risk of vendor lock-in.<br>
+**I3** Python is free and open-source, reducing licensing costs. It flatters a large community support and abundant libraries speed up development and maintenance. Python is widely accepted in government, academia, and industry for secure applications.<br>
+**I4**, **I5** and **I6** Using a well-tested open algorithm avoids costs of proprietary solutions and reduces risk of breaches (which are financially damaging). It simplifies audits and certifications since AES-256 is widely recognized by IT security standards. AES-256 is an international encryption standard, endorsed by organizations like NIST, ensuring compliance with security policies.<br>
+**I9** Increases trust and transparency, reduces maintenance costs, since future developers won’t need to rewrite argument handling (using a standard library like argparse is cheaper than custom parsers), having standardized CLI parsing makes the tool easier to maintain, document, and test.<br>
+**I10** Aligns with privacy and security regulations, improves user experience and productivity (fewer failed logins, faster workflows), simplifies daily workflow for users.<br>
+**I11** and **I12** comprehend a public and easy-to-retrieve and user-friendly library available on Python that just needs to be imported in the project code, no additional costs or license.<br>
+<br>
 
-    
-        **- ...otherwise, implementation choices should emerge *as a consequence of* design (and therefore described in the design section).**
-- If there are domain-specific terms, these should be explained in a **glossary**.
+### GLOSSARY
+- MASTER PASSWORD: the one password that unlocks all others
+- DEVICE SECRET (SALT): second parameter used for encryption/decryption operations to enhance security against rainbow table attacks
+- CREDENTIAL: clarifies what a stored entry contains (sitename, URL, email, username, password --encrypted)
+- ENCRYPTION: core mechanism for securing stored data
+- KEY DERIVATION FUNCTION KDF (in our case PBKDF2): critical for explaining how the master password transforms to an encryption key
+- HASH: the secure encryption to identify a user
+- DATABASE: the place where all entries and password get stored
+- ENTRY: the whole row with the credentials listed above
 
 
-> You may consider adding a use-case diagram here (via PlantUML) to better visualize the requirements and their relationships
+!["Visual representation of the a use case interaction"](../../pictures/Usecase-interaction.png)
