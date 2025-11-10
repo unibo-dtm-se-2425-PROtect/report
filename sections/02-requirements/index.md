@@ -14,7 +14,7 @@ Human beings daily interact with many services and/or products which require a u
 
 We would not suggest this application for important levels of business, like adopting it as main system in a bank, jobs related with public security and so on. It would definitely require more security barriers, while we implemented for sure a strong encryption protocol, yet was it intended to offer a tool to private users or employers at lower business levels who are not daily exposed to serious attacks.
 
-- Write down [user stories](https://www.atlassian.com/agile/project-management/user-stories) to devise the main __personas__ (user roles) and the activities they will perform via the system to be developed.
+!["Visual representation of the user persona"](../../pictures/user-persona.png)
 
 ## Requirements analysis
 
