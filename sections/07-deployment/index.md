@@ -11,10 +11,9 @@ nav_order: 8
 To run PROtect, users need to have Python 3.9 or higher installed on their machine, along with Git to clone the repository. Users also need a local MySQL server running, which serves as the backend database for storing credentials. Once Python and MySQL are installed, the software can be installed by cloning the repository and installing dependencies:
 
 ```sh
-git clone https://github.com/<your-repo>/PROtect.git
-cd PROtect
+git clone https://github.com/unibo-dtm-se-2425-PROtect/artifact.git
+cd artifact
 pip install -r requirements.txt
-After installing the dependencies, the user launches the application using:
 python -m pm
 ```
 
