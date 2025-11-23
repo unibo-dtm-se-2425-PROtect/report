@@ -155,17 +155,8 @@ DOMAIN EVENT -> capture something that happened in the domain that the system wa
 > UML class diagrams are welcome here
 
 ### In case of a distributed system
-
-- How do the domain concepts map to the architectural or infrastuctural components?
-    + i.e. which architectural/component is responsible for which domain concept?
-    + are there data types which are required onto multiple components? (e.g. messages being exchanged between components)
-
-- What are the domain concepts or data types which represent the state of the distributed system?
-    + e.g. state of a video game on central server, while inputs/representations on clients
-    + e.g. where to store messages in an instant-messaging app? for how long?
-
-- Are there domain concepts or data types which represent messages being exchanged between components?
-    + e.g. messages between clients and servers, messages between servers, messages between clients
+The system run locally, not distributed.
+If distributed, domain concepts would map across services, but in this case everything is in a single machine with local DB connections.
 
 ## Interaction
 
