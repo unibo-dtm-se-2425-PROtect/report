@@ -152,7 +152,7 @@ DOMAIN EVENT -> capture something that happened in the domain that the system wa
 - What are the main attributes and methods of each data type?
 - How do data types relate to each other?
 
-![Class Diagram](pictures/Class_Diagram.png)
+![Class Diagram](repo/pictures/Class_Diagram.png)
 
 ### In case of a distributed system
 The system run locally, not distributed.
