@@ -168,6 +168,8 @@ The following picture represents the retrieve and the addition of a pwd via CLI 
 
 ![CLI Sequential Diagram: Adding a password](../../pictures/Sequential_diagram_Adding_pwd.png)
 
+![CLI Sequential Diagram: Retrieving a password](../../pictures/Sequential_diagram_Retrieving_pwd.png)
+
 
 ## Behaviour
 
