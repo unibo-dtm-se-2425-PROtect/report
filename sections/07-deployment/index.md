@@ -6,21 +6,30 @@ nav_order: 8
 
 # Deployment
 
-This section explains what operations are needed to make the software work on the users' machine(s)
+##User Installation
 
-## User installation
+To run PROtect, users need to have Python 3.9 or higher installed on their machine, along with Git to clone the repository. Users also need a local MySQL server running, which serves as the backend database for storing credentials. Once Python and MySQL are installed, the software can be installed by cloning the repository and installing dependencies:
 
-- Does the user need to install something on their machine(s) to run your software?
-    * If yes, what is it?
-    * If yes, how to install it? (report the commands to run)
-    * If yes, how to configure it? (e.g. creating configuration files, setting environment variables, etc.)
+```sh
+git clone https://github.com/<your-repo>/PROtect.git
+cd PROtect
+pip install -r requirements.txt
+After installing the dependencies, the user launches the application using:
+python -m pm
+```
 
-## Server-side installation
+On first launch, PROtect guides the user through initial configuration, including setting a master password and generating a device secret, which are then stored securely in the database. No additional configuration files or environment variables are required; the application handles database schema creation and all required tables (SECRETS and ENTRIES) automatically.
 
-- Does your software need to be installed on a server?
-    * If yes, what is it?
-    * If yes, how to install it?
-    * If yes, how to configure it?
+## Server-Side Installation
 
-- Does your software need to further software to be installed on the server? (e.g. a database, a message broker, etc.)
-    * same questions as above
+PROtect requires a MySQL server, which can be hosted locally or on a remote server if multiple users need access. The MySQL server must be configured with a database (default name protect) to store user credentials and secrets. If using a remote server, the application configuration must include the server host, username, password, and database name.
+
+The installation of the MySQL server depends on the operating system:
+
+Windows: Download the MySQL Community Server from the official site and run the installer, ensuring the server starts automatically.
+
+macOS: Install via Homebrew with: _brew install mysql_ and start the service using _brew services start mysql_.
+
+Linux (Ubuntu/Debian): Install with _sudo apt install mysql-server_ and start it using _sudo systemctl start mysql_.
+Once the server is running, PROtect can connect to it automatically at first launch, creating the required database schema and tables if they do not already exist. 
+No additional software is required beyond MySQL, Python, and the dependencies listed in _requirements.txt_.
