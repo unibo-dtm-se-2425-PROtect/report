@@ -177,16 +177,6 @@ If distributed, domain concepts would map across services, but in this case ever
 
 ## Data-related aspects (in case persistent storage is needed)
 
-- Is there any data that needs to be stored?
-    - *What* data? *Where*? *Why*?
-
-- How should **persistent data** be **stored**? Why?
-    - e.g., relations, documents, key-value, graph, etc.
-
-- Which components perform queries on the database?
-    - *When*? *Which* queries? *Why*?
-    - Concurrent read? Concurrent write? Why?
-
-- Is there any data that needs to be shared between components?
-    - *Why*? *What* data?
-
+The system stores two main types of data in a MySQL relational database. The first is the SECRETS table, which contains the hashed master password, device secret (salt), and username. This table is essential for authentication and secure key derivation. The second is the ENTRIES table, which includes fields such as id, website, url, username/email, and the encrypted password, providing persistent storage for user vault entries. Data is stored in a structured relational format to ensure consistent schema, support easy CRUD operations, allow atomic updates, and maintain stability and safety across multiple sessions.
+Various components interact with the database at different times. The config component queries the database during the first setup to create the schema and initialize secrets. The add component inserts encrypted entries when new vault items are added. The retrieve component reads and decrypts entries when users request them, and the pm component may access the database on startup to check configuration. Since the system is single-user and single-process, there are no concurrency issues; MySQL automatically ensures consistency, and no additional locking or transactions are required beyond the default commits.
+Shared data exists between components where necessary: the master password hash and device secret are shared across authentication components, while the entries table is accessed by both CLI and GUI interactions. There is no in-memory shared state, as coordination occurs entirely through the database.
