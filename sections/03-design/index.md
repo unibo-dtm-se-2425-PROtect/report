@@ -164,11 +164,15 @@ If distributed, domain concepts would map across services, but in this case ever
 
 - Which **interaction patterns** do they enact?
 
-The following picture represents the retrieve and the addition of a pwd via CLI and login via GUI
 
+CLI Sequential Diagram: Adding a password
 ![CLI Sequential Diagram: Adding a password](../../pictures/Sequential_diagram_Adding_pwd.png)
 
+CLI Sequential Diagram: Retrieving a password
 ![CLI Sequential Diagram: Retrieving a password](../../pictures/Sequential_diagram_Retrieving_pwd.png)
+
+GUI Sequential Diagram: Login Workflow
+![GUI Sequential Diagram: Login Workflow](../../pictures/GUI_seq_diagram_login_workflow.png)
 
 
 ## Behaviour
