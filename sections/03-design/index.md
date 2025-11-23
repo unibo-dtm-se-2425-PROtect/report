@@ -166,7 +166,8 @@ If distributed, domain concepts would map across services, but in this case ever
 
 The following picture represents the retrieve and the addition of a pwd via CLI and login via GUI
 
-> UML sequence diagrams are welcome here
+![CLI Sequential Diagram: Adding a password](../../pictures/Sequential_diagram_Adding_pwd.png)
+
 
 ## Behaviour
 
