@@ -181,8 +181,16 @@ GUI Sequential Diagram: Login Workflow
     + Some components may be *stateful*, others *stateless*
 
 - Which components are in charge of updating the **state** of the system? *When*? *How*?
+  
+Activity Diagram: Deletion Entry
+![Activity Diagram: Deletion Entry](../../pictures/Activity_diagram_delete_entry.png)
 
-> UML state diagrams or activity diagrams are welcome here
+
+Activity Diagram: Master Validation
+![Activity Diagram: Master Validation](../../pictures/Activity_diagram_master_validation.png)
+
+
+
 
 ## Data-related aspects (in case persistent storage is needed)
 
