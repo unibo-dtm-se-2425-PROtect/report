@@ -164,6 +164,8 @@ If distributed, domain concepts would map across services, but in this case ever
 
 - Which **interaction patterns** do they enact?
 
+The following picture represents the retrieve and the addition of a pwd via CLI and login via GUI
+
 > UML sequence diagrams are welcome here
 
 ## Behaviour
