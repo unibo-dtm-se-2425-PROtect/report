@@ -210,60 +210,59 @@ Our system is composed by several modules implementing configuration management 
 
 
 
-#### Relationships Between Data Types
+### Relationships Between Data Types
 
-## **pm → uses → config**
+##### **pm → uses → config**
 
 The main program checks or builds configuration before anything else.
 
 
-## **pm → uses → retrieve**
+##### **pm → uses → retrieve**
 
 The main program can retrieve password entries once authenticated.
 
 
-## **config → uses → dbconfig**
+##### **config → uses → dbconfig**
 
 Configuration needs access to the database to create or modify config tables.
 
 
-## **add → uses → dbconfig**
+##### **add → uses → dbconfig**
 
 Adding new entries requires writing into the database.
 
 
-## **add → uses → AES256util**
+##### **add → uses → AES256util**
 
 Because new entries must be encrypted with AES-256 before being stored.
 
 
-## **add → uses → config**
+##### **add → uses → config**
 
 Because adding an entry requires the device secret (part of the config).
 
- 
 
-## **retrieve → uses → add**
+##### **retrieve → uses → add**
 
 Retrieving requires computing the master key using `add.computeMasterKey`.
 
 
-## **retrieve → uses → AES256util**
+##### **retrieve → uses → AES256util**
 
 Used for decrypting entries when required.
 
 
-## **retrieve → uses → dbconfig**
+##### **retrieve → uses → dbconfig**
 
 To read entries from the database.
 
 
-## **LoginApp → uses → AES256util**
+##### **LoginApp → uses → AES256util**
 
 Used to verify master password.
 
 
-## **LoginApp → uses → messagebox, ttkbootstrap, tk**
+##### **LoginApp → uses → messagebox, ttkbootstrap, tk**
 
 These external libraries build the GUI and show messages.
 
