@@ -6,7 +6,7 @@ nav_order: 8
 
 # Deployment
 
-##User Installation
+## User Installation
 
 To run PROtect, users need to have Python 3.9 or higher installed on their machine, along with Git to clone the repository. Users also need a local MySQL server running, which serves as the backend database for storing credentials. Once Python and MySQL are installed, the software can be installed by cloning the repository and installing dependencies:
 
