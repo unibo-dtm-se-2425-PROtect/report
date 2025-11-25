@@ -33,22 +33,22 @@ The controller is where we write what happens in reaction to input from the user
 !["Visual representation of the architecture"](../../pictures/archit-diagram.jpeg)
 
 ### Responsibilities of architectural components
-GUIview.py + Loginview.py -> it is in charge of rendering an easy-to-understand interface to the user, built via ttkboostrapt (tkinter) library and it's showed onto the display the user is interacting with (in our case, a computer desktop)<br>
+**GUIview.py + Loginview.py** -> it is in charge of rendering an easy-to-understand interface to the user, built via ttkboostrapt (tkinter) library and it's showed onto the display the user is interacting with (in our case, a computer desktop)<br>
 CLI -> includes the whole codebase to use the application via command-line interface (always shown via display) without opening a GUI. it is connected to the rich library to display messages in the CLI in a nicer and colorful way also to let the user better understand what is happening<br>
 
-AES256util.py -> utility directly imported from github to insert the encryption base as reference for the rest of the project code (it is coupled with cryptography libraries) <br>
+**AES256util.py **-> utility directly imported from github to insert the encryption base as reference for the rest of the project code (it is coupled with cryptography libraries) <br>
 
 config.py -> represents the basic configuration of the application in order to create the database and the related tables ("SECRETS" for the master passwords coupled with salts for each user and "ENTRIES" to keep a record of all websites accessed by the users by means of a password). It connects to dbconfig.py to make all the configurations possible. It is also the initial configuration to choose the master password the first time and it generates the device secret (salt) associated to it to make the system safer and at each access it automatically checks for the correspondance. <br>
 
-dbconfig.py -> creates the connection with mysql.connector in order to establish a connection to the db every time it is needed (also useful for first configuration)<br>
+**dbconfig.py** -> creates the connection with mysql.connector in order to establish a connection to the db every time it is needed (also useful for first configuration)<br>
 
-retrieve.py -> defines connection and queries to retrieve entries from the database and never shows the password in clear but copy to clipboard via pyperclip<br>
+**retrieve.py **-> defines connection and queries to retrieve entries from the database and never shows the password in clear but copy to clipboard via pyperclip<br>
 
-add.py -> it is the piece of code to add a new row in the table "ENTRIES" after checking if it already exists. This is possible if the user inserts the right master password, first. It is done to provide a further level of esecurity becasue it is not said that only because the application is already running the real owner of the account is still sitting in front of the desktop, and maybe he did not use the button "Lock" before stepping away and someone may have access to the hardware<br>
+**add.py **-> it is the piece of code to add a new row in the table "ENTRIES" after checking if it already exists. This is possible if the user inserts the right master password, first. It is done to provide a further level of esecurity becasue it is not said that only because the application is already running the real owner of the account is still sitting in front of the desktop, and maybe he did not use the button "Lock" before stepping away and someone may have access to the hardware<br>
 
-*GUIcontroller.py and Logincontroller.py* -> the logic behind the actions that trigger the GUI (ex. puts into communication the view and the model when an action is triggered by the user by means of the GUI ex. clicking on a button). There is also the controller for the Login interface to access the application with the correct account (authentication).<br>
+**GUIcontroller.py and Logincontroller.py** -> the logic behind the actions that trigger the GUI (ex. puts into communication the view and the model when an action is triggered by the user by means of the GUI ex. clicking on a button). There is also the controller for the Login interface to access the application with the correct account (authentication).<br>
 
-*GUImodel.py* -> it's in charge of the queries to interact with the database and consequently performing CRUD and Import/Export operations (and any needed feature)<br>
+***GUImodel.py* **-> it's in charge of the queries to interact with the database and consequently performing CRUD and Import/Export operations (and any needed feature)<br>
 
 
 
