@@ -19,5 +19,3 @@ PROtect allows users to search for entries efficiently by site name, URL, or use
 The system also includes input validation, preventing empty or incomplete entries, and duplicate detection, ensuring the database remains organized and error-free. Users receive clear feedback through message boxes in the GUI or printed messages in the CLI, providing confirmation of successful actions or guidance in case of errors.
 
 The application is lightweight and requires minimal system resources, making it accessible across a wide range of hardware. Overall, PROtect is designed to provide a secure, seamless, and flexible password management experience, combining strong encryption, practical usability, and comprehensive support, with troubleshooting guidance and updates available through the GitHub repository.
-
-> Screenshots are welcome, but please make sure to remove any sensitive information (e.g. passwords, tokens, etc.) before including them in the documentation.
