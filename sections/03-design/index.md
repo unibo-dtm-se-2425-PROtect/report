@@ -34,7 +34,8 @@ The controller is where we write what happens in reaction to input from the user
 
 ### Responsibilities of architectural components
 **GUIview.py + Loginview.py** -> it is in charge of rendering an easy-to-understand interface to the user, built via ttkboostrapt (tkinter) library and it's showed onto the display the user is interacting with (in our case, a computer desktop)<br>
-CLI -> includes the whole codebase to use the application via command-line interface (always shown via display) without opening a GUI. it is connected to the rich library to display messages in the CLI in a nicer and colorful way also to let the user better understand what is happening<br>
+
+**CLI** -> includes the whole codebase to use the application via command-line interface (always shown via display) without opening a GUI. it is connected to the rich library to display messages in the CLI in a nicer and colorful way also to let the user better understand what is happening<br>
 
 **AES256util.py** -> utility directly imported from github to insert the encryption base as reference for the rest of the project code (it is coupled with cryptography libraries) <br>
 
