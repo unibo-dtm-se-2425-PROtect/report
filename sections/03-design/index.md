@@ -328,11 +328,12 @@ In the picture here above, we represented the CLI sequential workflow of retriev
 
 
 
+
 GUI Sequential Diagram: Login Workflow
 
 ![GUI Sequential Diagram: Login Workflow](../../pictures/GUI_seq_diagram_login_workflow.png)
 
-In the picture here above, we represented the GUI sequential workflow of retrieving a password:
+In the picture here above, we represented the GUI sequential login workflow:
 
 1. User enters username and password, then clicks “Login” in the GUI.
 2. GUI calls verify_master_password(username, password).
