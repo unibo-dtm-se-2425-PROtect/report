@@ -276,20 +276,39 @@ These external libraries build the GUI and show messages.
 The system run locally, not distributed.
 If distributed, domain concepts would map across services, but in this case everything is in a single machine with local DB connections.
 
+
 ## Interaction
 
-- How do components *communicate*? *When*? *What*?
-
-- Which **interaction patterns** do they enact?
-
+In the CLI workflow, the interaction between components follows a request–reply pattern driven by user commands. The pm.py CLI acts as the orchestration layer: it receives user input, triggers internal logic, and coordinates calls to cryptographic and database modules. All components communicate through synchronous function calls.
 
 CLI Sequential Diagram: Adding a password
+
 ![CLI Sequential Diagram: Adding a password](../../pictures/Sequential_diagram_Adding_pwd.png)
 
+In the picture here above, we represented the sequential workflow of adding a passoword:
+1. User runs pm add → CLI prompts for master password.
+2. CLI calls addEntry(mp, ds, site, url, email, username).
+3. Add module derives master key and encrypts the password via AES-256.
+4. Encrypted entry stored in MySQL database.
+5. Database confirms insertion → CLI displays success.
+
+
 CLI Sequential Diagram: Retrieving a password
+
 ![CLI Sequential Diagram: Retrieving a password](../../pictures/Sequential_diagram_Retrieving_pwd.png)
 
+1. User runs pm extract → CLI prompts for master password.
+2. CLI calls retrieveEntries(mp, ds, search, decryptPassword).
+3. Retrieve module queries the MySQL database.
+4. Database returns encrypted entries.
+5. If a single entry and decryptPassword=True → retrieve calls AES-256 to decrypt.
+6. Decrypted password (or encrypted entries) returned to CLI.
+7. CLI displays a table or copies password to clipboard.
+
+
+
 GUI Sequential Diagram: Login Workflow
+
 ![GUI Sequential Diagram: Login Workflow](../../pictures/GUI_seq_diagram_login_workflow.png)
 
 
