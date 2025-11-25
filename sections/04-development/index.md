@@ -37,10 +37,10 @@ Authentication is strictly based on the master password, which the user sets dur
 The project is developed entirely in Python, chosen for its readability, extensive library ecosystem, and suitability for both CLI and GUI development.
 
 ### Libraries Used:
-- mysql-connector-python — database communication with MySQL
-- ttkbootstrap (with tkinter) — modern GUI components
-- pyperclip — secure clipboard operations
-- argparse — CLI parsing
+- mysql-connector-python: database communication with MySQL
+- ttkbootstrap (with tkinter): modern GUI components
+- pyperclip: secure clipboard operations
+- argparse: CLI parsing
 
 These libraries were selected for their stability, documentation quality, and compatibility with Python 3.
 
