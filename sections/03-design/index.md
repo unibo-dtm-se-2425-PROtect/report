@@ -164,11 +164,112 @@ DOMAIN EVENT -> capture something that happened in the domain that the system wa
 
 ### Object-oriented modelling
 
-- What are the main data types (e.g. classes) of the system?
-- What are the main attributes and methods of each data type?
-- How do data types relate to each other?
+#### Core application classes
+Our system is composed by several modules implementing configuration management (`config`), encryption (`AES256util`), database access (`dbconfig`), entry insertion (`add`), entry retrieval (`retrieve`), and GUI login (`LoginApp`). The main program (`pm`) orchestrates the workflow. The modules interact through clear “uses” relationships: `pm` relies on `config` and `retrieve`, cryptographic operations depend on `AES256util`, and database access is centralized in `dbconfig`. Tkinter classes are only used by `LoginApp`, keeping GUI logic separate from core business logic. Additionally, it operates with external library classes to provide the GUI interface (`messagebox`, `ttkbootstrap`, `tk`)
+
+#### In more details: 
+
+**pm**: is the *main entry point* of the entire program.
+- `main()`: Starts the application workflow.
+- `inputAndValidateMasterPassword()`: Asks the user for the master password and validates it.
+
+
+**config**: it handles *initial configuration*, deletion of configuration, and validation.
+- `config()`: Creates or loads configuration.
+- `delete()`: Deletes existing configuration.
+- `reconfig()`: Recreates configuration.
+- `checkConfig() : bool`: Verifies that configuration is valid.
+- `generateDeviceSecret() : str`: Creates a unique device secret used in key computation.
+
+
+**add**: it handles adding new password entries to the database.
+- `computeMasterKey(mp, ds) : bytes`: Generates the encryption key from master password and device secret.
+- `checkEntry(...) : bool`: Validates whether an entry can be added (format and duplicates).
+- `addEntry(...)`: Inserts a new encrypted entry into the database.
+
+
+**retrieve**: it retrieves entries stored in the database.
+- `retrieveEntries(mp, ds, search, decryptPassword=False)`: Searches entries and optionally decrypts stored passwords.
+
+
+**dbconfig**: it takes care of the database connection.
+- `dbconfig() : connection`: Creates and returns a connection to the database.
+
+
+**AES256util**: it handles all cryptographic operations.
+- `encrypt(key, source) : str`: Encrypts plaintext into ciphertext.
+- `decrypt(key, source) : bytes`: Decrypts ciphertext.
+- `verify_master_password(username, master_password) : bool`: Verifies if user authentication is valid.
+
+
+**LoginApp**: it is the GUI class for user login.
+- `__init__(root)`: Builds the GUI.
+- `verify_login()`: Called when user presses login; checks the credentials.
+- `clear_fields()`: Clears the input widgets.
+
+
+
+#### Relationships Between Data Types
+
+## **pm → uses → config**
+
+The main program checks or builds configuration before anything else.
+
+
+## **pm → uses → retrieve**
+
+The main program can retrieve password entries once authenticated.
+
+
+## **config → uses → dbconfig**
+
+Configuration needs access to the database to create or modify config tables.
+
+
+## **add → uses → dbconfig**
+
+Adding new entries requires writing into the database.
+
+
+## **add → uses → AES256util**
+
+Because new entries must be encrypted with AES-256 before being stored.
+
+
+## **add → uses → config**
+
+Because adding an entry requires the device secret (part of the config).
+
+ 
+
+## **retrieve → uses → add**
+
+Retrieving requires computing the master key using `add.computeMasterKey`.
+
+
+## **retrieve → uses → AES256util**
+
+Used for decrypting entries when required.
+
+
+## **retrieve → uses → dbconfig**
+
+To read entries from the database.
+
+
+## **LoginApp → uses → AES256util**
+
+Used to verify master password.
+
+
+## **LoginApp → uses → messagebox, ttkbootstrap, tk**
+
+These external libraries build the GUI and show messages.
+
+
 
 ![Class Diagram](../../pictures/Class_Diagram.png)
+
 
 ### In case of a distributed system
 The system run locally, not distributed.
