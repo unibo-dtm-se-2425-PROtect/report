@@ -214,12 +214,10 @@ Our system is composed by several modules implementing configuration management 
 ### Relationships Between Data Types
 
 #### **pm → uses → config**
-
 The main program checks or builds configuration before anything else.
 
 
 #### **pm → uses → retrieve**
-
 The main program can retrieve password entries once authenticated.
 
 
@@ -229,47 +227,40 @@ Configuration needs access to the database to create or modify config tables.
 
 
 #### **add → uses → dbconfig**
-
 Adding new entries requires writing into the database.
 
 
 #### **add → uses → AES256util**
-
 Because new entries must be encrypted with AES-256 before being stored.
 
 
 #### **add → uses → config**
-
 Because adding an entry requires the device secret (part of the config).
 
 
 #### **retrieve → uses → add**
-
 Retrieving requires computing the master key using `add.computeMasterKey`.
 
 
 #### **retrieve → uses → AES256util**
-
 Used for decrypting entries when required.
 
 
 #### **retrieve → uses → dbconfig**
-
 To read entries from the database.
 
 
 #### **LoginApp → uses → AES256util**
-
 Used to verify master password.
 
 
 #### **LoginApp → uses → messagebox, ttkbootstrap, tk**
-
 These external libraries build the GUI and show messages.
 
 
 
 ![Class Diagram](../../pictures/Class_Diagram.png)
+
 
 
 ### In case of a distributed system
@@ -285,31 +276,46 @@ CLI Sequential Diagram: Adding a password
 
 ![CLI Sequential Diagram: Adding a password](../../pictures/Sequential_diagram_Adding_pwd.png)
 
-In the picture here above, we represented the sequential workflow of adding a passoword:
-1. User runs pm add → CLI prompts for master password.
+In the picture here above, we represented the CLI sequential workflow of adding a password:
+
+1. User runs pm add, CLI prompts for master password.
 2. CLI calls addEntry(mp, ds, site, url, email, username).
 3. Add module derives master key and encrypts the password via AES-256.
 4. Encrypted entry stored in MySQL database.
-5. Database confirms insertion → CLI displays success.
+5. Database confirms insertion and the CLI displays success.
 
 
 CLI Sequential Diagram: Retrieving a password
 
 ![CLI Sequential Diagram: Retrieving a password](../../pictures/Sequential_diagram_Retrieving_pwd.png)
 
-1. User runs pm extract → CLI prompts for master password.
+In the picture here above, we represented the CLI sequential workflow of retrieving a password:
+
+1. User runs pm extract and sequentially CLI prompts for master password.
 2. CLI calls retrieveEntries(mp, ds, search, decryptPassword).
 3. Retrieve module queries the MySQL database.
 4. Database returns encrypted entries.
-5. If a single entry and decryptPassword=True → retrieve calls AES-256 to decrypt.
+5. If a single entry and decryptPassword=True, then the retrieve command calls AES-256 to decrypt.
 6. Decrypted password (or encrypted entries) returned to CLI.
-7. CLI displays a table or copies password to clipboard.
+7. CLI displays a table or copies password to clipboard (it does not show the password on the terminal)
 
 
 
 GUI Sequential Diagram: Login Workflow
 
 ![GUI Sequential Diagram: Login Workflow](../../pictures/GUI_seq_diagram_login_workflow.png)
+
+In the picture here above, we represented the GUI sequential workflow of retrieving a password:
+
+1. User enters username and password, then clicks “Login” in the GUI.
+2. GUI calls verify_master_password(username, password).
+3. AES256util queries the dbconfig database for the stored hash.
+4. Database returns the stored hash.
+5. AES256util verifies the password and returns the authentication result. Consequentially, we can have two possible outcome: 
+- Login Success: GUI displays “Login successful” via messagebox and the GUI clears all input fields.
+- Login Failure: GUI displays “Invalid username or password” via messagebox and the GUI clears only the password entry.
+
+In summary, the GUI manages all user interactions and presentation, while AES256util handles cryptographic verification and the database stores credentials. The entire flow is fully synchronous, layered, and unidirectional: User → GUI → AES256util → DB → AES256util → GUI → User.
 
 
 ## Behaviour
@@ -333,6 +339,8 @@ Activity Diagram: Master Validation
 
 ## Data-related aspects (in case persistent storage is needed)
 
-The system stores two main types of data in a MySQL relational database. The first is the SECRETS table, which contains the hashed master password, device secret (salt), and username. This table is essential for authentication and secure key derivation. The second is the ENTRIES table, which includes fields such as id, website, url, username/email, and the encrypted password, providing persistent storage for user vault entries. Data is stored in a structured relational format to ensure consistent schema, support easy CRUD operations, allow atomic updates, and maintain stability and safety across multiple sessions.
+The system stores two main types of data in a MySQL relational database. The first is the **SECRETS** table, which contains the hashed master password, device secret (salt), and username. This table is essential for authentication and secure key derivation. The second is the **ENTRIES** table, which includes fields such as id, website, url, username/email, and the encrypted password, providing persistent storage for user vault entries. Data is stored in a structured relational format to ensure consistent schema, support easy CRUD operations, allow atomic updates, and maintain stability and safety across multiple sessions.
+
 Various components interact with the database at different times. The config component queries the database during the first setup to create the schema and initialize secrets. The add component inserts encrypted entries when new vault items are added. The retrieve component reads and decrypts entries when users request them, and the pm component may access the database on startup to check configuration. Since the system is single-user and single-process, there are no concurrency issues; MySQL automatically ensures consistency, and no additional locking or transactions are required beyond the default commits.
+
 Shared data exists between components where necessary: the master password hash and device secret are shared across authentication components, while the entries table is accessed by both CLI and GUI interactions. There is no in-memory shared state, as coordination occurs entirely through the database.
