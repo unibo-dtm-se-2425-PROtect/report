@@ -54,19 +54,6 @@ The controller is where we write what happens in reaction to input from the user
 
 
 
-## Infrastructure (mostly applies to distributed systems)
-
-- Are there **infrastructural components** that need to be introduced? Which and **how many** of each?
-    - e.g. **clients**, **servers**, **load balancers**, **caches**, **databases**, **message brokers**, **queues**, **workers**, **proxies**, **firewalls**, **CDNs**, etc.
-- How do components **distribute** over the network? **Where** are they located?
-    - e.g. do servers / brokers / databases / etc. sit on the same machine? on the same network? on the same datacenter? on the same continent?
-- How do components **find** each other?
-    - How to **name** components?
-    - e.g. **DNS**, **service discovery**, **load balancing**, etc.
-
-> UML deployment diagrams are welcome here
-
-
 ## Modelling
 
 ### Domain driven design (DDD) modelling
@@ -348,12 +335,21 @@ In summary, the GUI manages all user interactions and presentation, while AES256
 
 ## Behaviour
 
-- How does **each** component *behave* individually (e.g., in *response* to *events* or messages)?
-    + Some components may be *stateful*, others *stateless*
+This section describes how each component behaves individually and how the system state is updated in response to user actions and internal events.
 
-- Which components are in charge of updating the **state** of the system? *When*? *How*?
   
 Activity Diagram: Deletion Entry
+
+This component manages the deletion of password or data entries by ID.
+1. Waits for event: User provides entry ID. The deletion workflow is triggered by a user request.
+2. Asks for confirmation (y/N). If user cancels, the workflow ends (no state changes).
+3. On confirmation: connects to database. It sends a deletion command for the specified entry ID.
+4. Database attempts deletion
+- If entry with that ID exists → entry is removed (This is an update to persistent state)
+- If entry does not exist → no modification to state
+5. Displays result: 
+- “Entry deleted” on success
+- “No entry found” if ID was invalid
 
 ![Activity Diagram: Deletion Entry](../../pictures/Activity_diagram_delete_entry.png)
 
