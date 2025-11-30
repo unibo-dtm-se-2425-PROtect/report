@@ -68,18 +68,18 @@ We partition the domain of PROtect into three bounded contexts:
 - **Database context**: Encapsulates database configuration and storage details, which are necessary but not unique to the problem domain. It is responsible for managing MySQL connections and configuration (dbconfig.py especially for first configuration, and then general config.py), storing and retrieving encrypted entries and user data, exposing durable storage operations to the core logic.<br>
 
 
-### Domain Concepts
+### Main Domain Concepts
 
-ENTITY -> object with an identifier, can change overtime <br>
-VALUE OBJECT -> we only care about the attributes, without ID so interchangeable <br>
-AGGREGATE ROOT -> a sort of entity, but groups simpler entities or value objects <br>
-FACTORY -> objects aimed at creating other objects <br>
-REPOSITORY -> objects mediating the persistent storage/retrieval of other objects (ex. supports CRUD operations) <br>
-SERVICE -> functional objects encapsulating the business logic of the software. It is not forcedly about web services, but to whatever python object encapsulating the business logic of other entities <br>
-DOMAIN EVENT -> capture something that happened in the domain that the system wants to remember or react to.<br>
-<br>
+**Entity**: An object that has a unique identity and can change over time.
+**Value Object**: An object defined only by its attributes; it has no identity, making it interchangeable with any other value object with the same values.
+**Aggregate Group**: A special type of entity that acts as the entry point for a group of related entities and value objects, ensuring consistency within the group.
+**Factory**: An object or function responsible for creating other objects, often used when construction is complex or must follow specific rules.
+**Repository**: An object that handles the retrieval and persistence of entities, typically supporting CRUD operations while hiding storage details.
+**Service**: A stateless object that encapsulates business logic that does not naturally belong to an entity or value object; not necessarily a web service.
+**Domain Event**: A record of something meaningful that happened within the domain and that the system may need to track or react to.
 
-**Security and Vault Context**
+
+#### Security and Vault Context
 
 **ENTITIES**
 - ENTRY (from entries table, managed in add.py and retrieve.py): identified by ID, website name, URL, username, email, -encrypted- password
@@ -114,10 +114,10 @@ DOMAIN EVENT -> capture something that happened in the domain that the system wa
 - PasswordRetrieved: a password was decrypted and exposed only to clipboard.
 - AuthenticationFailed: login attempt with wrong master password.
 - AuthenticationSucceeded: master password verified, session established.
-<br>
 
 
-**User Interaction Context**
+
+#### User Interaction Context
 
 **ENTITIES**
 - LOGIN/SIGNUP SESSION: managed both by GUI and CLI
@@ -143,10 +143,9 @@ DOMAIN EVENT -> capture something that happened in the domain that the system wa
 - SessionStarted: after successful authentication in CLI or GUI.
 - SessionEnded: implicit (after command completes, session closes).
 - Login/RegistrationUIAccessed (planned for GUI): when login/signup view is opened).
-<br>
 
 
-**Database Context**
+#### Database Context
 
 **ENTITIES**
 - DATABASE CONNECTION (dbconfig.py): the active MySQL session identified by connection parameters
@@ -176,6 +175,8 @@ DOMAIN EVENT -> capture something that happened in the domain that the system wa
 - DatabaseQueryExecuted: any time SQL is run
 
 ![Context Map](../../pictures/Context_map.png)
+
+
 
 ### Object-oriented modelling
 
