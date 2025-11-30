@@ -338,7 +338,7 @@ In summary, the GUI manages all user interactions and presentation, while AES256
 This section describes how each component behaves individually and how the system state is updated in response to user actions and internal events.
 
   
-Activity Diagram: Deletion Entry
+### Activity Diagram: Deletion Entry
 
 This component manages the deletion of password or data entries by ID.
 1. Waits for event: User provides entry ID. The deletion workflow is triggered by a user request.
@@ -354,7 +354,19 @@ This component manages the deletion of password or data entries by ID.
 ![Activity Diagram: Deletion Entry](../../pictures/Activity_diagram_delete_entry.png)
 
 
-Activity Diagram: Master Validation
+### Activity Diagram: Master Validation
+
+This component is responsible for authenticating the user before granting access to sensitive operations.
+1. Waits for event: User enters master password. The component is activated when the user provides a master password.
+2. Hashes the input password. It transforms the provided password using a secure one-way hashing function.
+- **Stateless behaviour**: The hashing operation itself is stateless, it simply takes input and produces output.
+3. Requests stored hash from the database. The component sends a query to the database layer to retrieve the stored master password hash. This is a state read operation.
+4. Compares input hash with stored hash
+- If the hashes match, the authentication success
+- If they do not match, the authentication fails and the error is shown
+5. **On success**: returns master password + device secret. This transitions the system into an authenticated state. 
+**Stateful behaviour**: The authentication module becomes stateful only when it updates session or security state.
+6. **On failure**: produces an error event. No state is changed.
 
 ![Activity Diagram: Master Validation](../../pictures/Activity_diagram_master_validation.png)
 
