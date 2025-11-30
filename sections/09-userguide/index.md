@@ -14,7 +14,7 @@ These two components are combined to produce a Master Key, which is subsequently
 
 When retrieving passwords, the system never displays them in plain text by default; instead, passwords are automatically copied to the clipboard, minimizing the risk of accidental exposure.
 
-PROtect allows users to search for entries efficiently by site name, URL, or username/email. Sensitive operations, such as modifying or deleting credentials, require re-entering the master password to confirm identity and prevent unauthorized changes. 
+PROtect allows users to search for entries efficiently by site name, URL, username, email or ID. Sensitive operations, such as modifying or deleting credentials, require re-entering the master password to confirm identity and prevent unauthorized changes. 
 
 The system also includes input validation, preventing empty or incomplete entries, and duplicate detection, ensuring the database remains organized and error-free. Users receive clear feedback through message boxes in the GUI or printed messages in the CLI, providing confirmation of successful actions or guidance in case of errors.
 
