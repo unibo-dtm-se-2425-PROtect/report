@@ -175,8 +175,7 @@ DOMAIN EVENT -> capture something that happened in the domain that the system wa
 - DatabaseWriteCommitted: new row committed.
 - DatabaseQueryExecuted: any time SQL is run
 
-
-> Context map diagrams are welcome here
+![Context Map](../../pictures/Context_map.png)
 
 ### Object-oriented modelling
 
