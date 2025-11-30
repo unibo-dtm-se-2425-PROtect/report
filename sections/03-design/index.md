@@ -79,7 +79,7 @@ We partition the domain of PROtect into three bounded contexts:
 **Domain Event**: A record of something meaningful that happened within the domain and that the system may need to track or react to.
 
 
-#### Security and Vault Context
+## Security and Vault Context
 
 **ENTITIES**
 - ENTRY (from entries table, managed in add.py and retrieve.py): identified by ID, website name, URL, username, email, -encrypted- password
@@ -117,7 +117,7 @@ We partition the domain of PROtect into three bounded contexts:
 
 
 
-#### User Interaction Context
+## User Interaction Context
 
 **ENTITIES**
 - LOGIN/SIGNUP SESSION: managed both by GUI and CLI
@@ -145,7 +145,7 @@ We partition the domain of PROtect into three bounded contexts:
 - Login/RegistrationUIAccessed (planned for GUI): when login/signup view is opened).
 
 
-#### Database Context
+## Database Context
 
 **ENTITIES**
 - DATABASE CONNECTION (dbconfig.py): the active MySQL session identified by connection parameters
