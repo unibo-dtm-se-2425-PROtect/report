@@ -37,8 +37,7 @@ The `@semantic-release/github` plugin handles creating the GitHub release and up
 
 ## Choice of the license
 
-- Which license did you choose for your artefacts? Why?
-- Which license did you choose for your code? Why?
+We chose a MIT License because it’s the most adequate choice for academic projects that are just for didactic purposes and not intended to be used in organizations, it is permissive, clear and easy to use, it’s often utilized in the Python world and it’s ideal if we want the others to freely check and see our code, protecting responsibility anyways. 
 
 ## Choice of the versioning schema
 
