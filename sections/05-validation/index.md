@@ -8,7 +8,7 @@ nav_order: 6
 
 ## Testing approach
 
-- Describe what approach you followed for testing your software
+- For this project, we adopted a comprehensive automated testing strategy that focused on "behavior verification". Since it is a Password Manager we're dealing with, and its security-critical nature, the main priority was ensuring both cryptographic operations and database interactions always occur without exposing sensitive data. In other words, the greater part of the application followed a Test-After approach to verify the correctness of the implemented logic. On the other hand, whenever there were critical security components to be tested, the approach switched to the TDD methodology (Test-First), so as to ensure robustness before implementation. 
 - If you followed TDD, describe it here
 - Also mention which testing framework you used (e.g. `unittest` or `pytest`) and why
 
