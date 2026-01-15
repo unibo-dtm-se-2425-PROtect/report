@@ -67,11 +67,21 @@ The overall test success rate was 100%.
 
 ### Integration testing
 
-- Describe couples of components that you tested together, and the corresponding test rationale/plan
+Integration testing was employed to verify the interactiong between the logic layer (the Python application), the data access layer (involving MySQL), and the system layer (comprising the OS clipboard and File System).
+In particular, the couples of components that were tested together will be listed down below:
+- `retrieve.py` / `AES256util`: verifying that the encrypted data fetched from the database via the retrieval module is correctly passed to the decryption utility.
+- `export.py` / **File System**: verifying the interaction between the database extraction logic and the OS's file handling.
+- `delete.py` / **User Input**: verifying the interaction between the application logic and the user's standard input stream.
+- `add.py` / `dbconfig.py`: verifying that the application logic correctly handles contraints imposed by the database schema.
+- `pm.py` / **Backend Modules**: verifying the routing logic between the CLI and the functional modules.
+- `tkinter_bootstrap_sample` / **Logic Layer**: verifying the communication between the GUI and the backend authentication logic. 
 
-- Report success rate and test coverage here
+100% test success rate was achieved, confirming that all listed components interacted as expected. 
 
-- If you used [test doubles](https://en.wikipedia.org/wiki/Test_double), describe her which type of double you used, and why
+Since the involvement of real, live production database was too computationally demanding, and physical user interaction was as much difficult to get, at need, we employed various kinds of test doubles to perform these integration tests. In particular, the test doubles involved can be categorized in:
+- **Fake objects**: we implemented fake entities such as `FakeDB` and `FakeCursor` that mimicked the real associated components. For example, `FakeDB` is a custom class that mimics the behaviour of the `mysql.connector` interface.
+- **Mocks and stubs**: standard mocks were used to system interfaces that are outside the control of the code. We relied specifically on `unittest.mock.MagicMock` for mocking, and on stubs like `builtins.input` (patched to simulate a user typing something in standard input), or `getpass.getpass` (patched to simulate the secure entry of the Master Password).
+- **Spies**: mocks were also used on the `rich.print` functions to "spy" on the output, allowing us to assert that the application was providing the correct visual feedback to the user. 
 
 ### System testing
 
