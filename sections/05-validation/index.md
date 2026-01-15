@@ -94,27 +94,27 @@ The following acceptance criteria were specifically addressed and verified:
 
 Functional Requirements
 
-F1: The user can configure the application connection to a local MySQL database via the `con` command.
-F2: The user can securely add new entries containing Site, URL, Email, Username, and Password.
-F3: The user can retrieve and view a table of stored entries, with sensitive passwords hidden by default (masked as `{hidden}`).
-F4: The user can securely decrypt and copy a specific password to the system clipboard using the `--copy` flag.
-F5: The user can modify existing entries, like updating an expired password, or delete obsolete entries by their ID.
-F6: The application supports bulk operations, allowing the user to import credentials from a CSV file.
-F7: The application allows the user to export their entire encrypted vault to a plaintext CSV file for backup purposes (requiring Master Password re-verification).
+- **F1**: The user can configure the application connection to a local MySQL database via the `con` command.
+- **F2**: The user can securely add new entries containing Site, URL, Email, Username, and Password.
+- **F3**: The user can retrieve and view a table of stored entries, with sensitive passwords hidden by default (masked as `{hidden}`).
+- **F4**: The user can securely decrypt and copy a specific password to the system clipboard using the `--copy` flag.
+- **F5**: The user can modify existing entries, like updating an expired password, or delete obsolete entries by their ID.
+- **F6**: The application supports bulk operations, allowing the user to import credentials from a CSV file.
+- **F7**: The application allows the user to export their entire encrypted vault to a plaintext CSV file for backup purposes (requiring Master Password re-verification).
 
 Security Requirements
 
-S1: Access to the vault is strictly guarded by a Master Password; no operation can be performed without authentication.
-S2: Passwords are never stored in plaintext; they are encrypted using AES-256-CBC before saving to the database.
-S3: The Master Password itself is never stored; only its SHA-256 hash is saved for verification.
-S4: The application prevents "Double Encryption" (encrypting already encrypted data) and "Accidental Deletion" (requiring explicit yes or no confirmation).
+- **S1**: Access to the vault is strictly guarded by a Master Password; no operation can be performed without authentication.
+- **S2**: Passwords are never stored in plaintext; they are encrypted using AES-256-CBC before saving to the database.
+- **S3**: The Master Password itself is never stored; only its SHA-256 hash is saved for verification.
+- **S4**: The application prevents "Double Encryption" (encrypting already encrypted data) and "Accidental Deletion" (requiring explicit yes or no confirmation).
 
 Non-Functional Requirements 
 
-NF1: The CLI utilizes color-coded output (green for success, red for errors, yellow for warnings) to enhance readability.
-NF2: Data is presented in structured, auto-sized tables (using the `rich` library) rather than raw text.
-NF3: The application handles large datasets (bulk import/export) without crashing or timing out.
-NF4: The system cleans up resources (database connections) automatically, even if an error occurs during execution.
+- **NF1**: The CLI utilizes color-coded output (green for success, red for errors, yellow for warnings) to enhance readability.
+- **NF2**: Data is presented in structured, auto-sized tables (using the `rich` library) rather than raw text.
+- **NF3**: The application handles large datasets (bulk import/export) without crashing or timing out.
+- **NF4**: The system cleans up resources (database connections) automatically, even if an error occurs during execution.
 
 The overall test success rate for acceptance tests was 100%.
 
