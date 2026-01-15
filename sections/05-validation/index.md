@@ -51,17 +51,19 @@ We'll proceed now at providing a breakdown of the test suites, mapped to the pro
 - `test_config.py` / `test_dbconfig.py`
   | Tests           | Requirements | Tested features    | Type  |
   |-----------------|------------  |--------------------|-------|
-  | 12               | F1, NF4           | Database connection establishment; Schema initialization; Configuration deletion; Handling of connection timeouts or credential failures |  Unit / Integration |
+  | 12               | F1, NF4           | Database connection establishment; Schema initialization; Configuration deletion; Handling of connection timeouts or credential failures |  Unit |
   
 - `test_tkinter_bootstrap_sample.py`
   | Tests           | Requirements | Tested features    | Type  |
   |-----------------|------------  |--------------------|-------|
-  | 4               | F1, S1           | GUI login window initialization; Theme application; Input field focus management; Mocked login verification logic |  Unit |
+  | 4               | F1, S1           | GUI login window initialization; Theme application; Input field focus management; Mocked login verification logic |  Unit / Mock UI |
 
 ### Unit testing
 
-- Describe the unit tests you developed, and their rationale
-- Report success rate and test coverage here
+A dedicated test file was created for each core component to verify its functioning in complete isolation. This proved to be particularly important for the AES256util module, as we had to mathematically prove that the encryption and hashing algorithms functioned correctly without relying on the state of the database.
+The GUI component was tested using a "fake widget" strategy. Frontend logic (like clearing password fields on failed login) was validated via mocking `ttkbootstrap` and `tkinter` classes, hence doing so in a headless environment.
+
+The overall test success rate was 100%. 
 
 ### Integration testing
 
