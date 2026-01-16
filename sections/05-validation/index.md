@@ -21,42 +21,42 @@ We'll proceed now at providing a breakdown of the test suites, mapped to the pro
 - `test_pm.py`
   | Tests           | Requirements | Tested features    | Type  |
   |-----------------|------------  |--------------------|-------|
-  | 18               | S1, NF1           | Argument parsing and routing; Master Password authentication flow; Handling of missing arguments; Error message propagation to the user interface |  System |
+  | 18               | S1, F1, NF11, I9           | Argument parsing and routing; Master Password authentication flow; Handling of missing arguments; Error message propagation to the user interface |  System |
 
 - `test_AES256util.py`
   | Tests           | Requirements | Tested features    | Type  |
   |-----------------|------------  |--------------------|-------|
-  | 9               | S2, S3           | AES-256-CBC encryption/decryption roundtrip; Hex vs. ASCII key handling; Padding validation; Master Password hashing and verification; Tamper detection |  Unit |
+  | 9               | S2, S3, NF4, NF5, NF9, I4, I5          | AES-256-CBC encryption/decryption roundtrip; Hex vs. ASCII key handling; Padding validation; Master Password hashing and verification; Tamper detection |  Unit |
   
 - `test_add.py`
   | Tests           | Requirements | Tested features    | Type  |
   |-----------------|------------  |--------------------|-------|
-  | 24               | F2, S2, S4           | Database insertion logic; Prevention of "Double Encryption"; Input validation for optional fields; Handling of duplicate entries |  Integration |
+  | 24               | S4, F2, F7, F8, F12           | Database insertion logic; Prevention of "Double Encryption"; Input validation for optional fields; Handling of duplicate entries; Defaulting empty emails |  Integration |
   
 - `test_retrieve.py`
   | Tests           | Requirements | Tested features    | Type  |
   |-----------------|------------  |--------------------|-------|
-  | 7               | F3, F4, NF2           | Dynamic SQL WHERE clause generation; Handling of empty results; "Ambiguity Guard" (warning on multiple results); Decryption flow to clipboard; Graceful handling of schema changes (missing columns) |  Integration |
+  | 7               | F10, F11, NF3, I10       | Retrieval by fields; Masking passwords as {hidden}; Decryption to clipboard |  Integration |
   
 - `test_delete.py`
   | Tests           | Requirements | Tested features    | Type  |
   |-----------------|------------  |--------------------|-------|
-  | 8               | F5, S4          | User confirmation flow (Y/n); SQL deletion execution; Handling of non-existent IDs; Error propagation from DB to CLI |  Integration |
+  | 8               | S4, F4, NF1, NF6         | Re-verification of Master Password; User confirmation flow (Y/n); SQL deletion execution; Handling of non-existent IDs; Error propagation from DB to CLI |  Integration |
   
 - `test_import.py` / `test_export.py`
   | Tests           | Requirements | Tested features    | Type  |
   |-----------------|------------  |--------------------|-------|
-  | 12               | F6, F7, NF3           | CSV parsing and writing; Bulk encryption/decryption loops; Atomic transaction handling (handling errors mid-process); File system I/O mocking |  Integration |
+  | 12               | F5, F6, NF3           | CSV parsing and writing; Bulk encryption/decryption loops; Atomic transaction handling (handling errors mid-process); File system I/O mocking |  Integration |
   
 - `test_config.py` / `test_dbconfig.py`
   | Tests           | Requirements | Tested features    | Type  |
   |-----------------|------------  |--------------------|-------|
-  | 12               | F1, NF4           | Database connection establishment; Schema initialization; Configuration deletion; Handling of connection timeouts or credential failures |  Unit |
+  | 12               | F9, NF7, NF8, I1, I7, I8         | Database/Table creation; Database connection establishment; Detecting existing configs; Catching DB creation errors; Localhost connection logic; |  Unit |
   
 - `test_tkinter_bootstrap_sample.py`
   | Tests           | Requirements | Tested features    | Type  |
   |-----------------|------------  |--------------------|-------|
-  | 4               | F1, S1           | GUI login window initialization; Theme application; Input field focus management; Mocked login verification logic |  Unit / Mock UI |
+  | 4               | F13, F14, F15, NF12, I11, I12          | GUI login window initialization; Theme application; Input field focus management; Mocked login verification logic |  Unit / Mock UI |
 
 ### Unit testing
 
@@ -115,13 +115,21 @@ The following acceptance criteria were specifically addressed and verified:
 
 Functional Requirements
 
-- **F1**: The user can configure the application connection to a local MySQL database via the `con` command.
+- **F1**: The user cannot view entries without setting and providing a master password.
 - **F2**: The user can securely add new entries containing Site, URL, Email, Username, and Password.
-- **F3**: The user can retrieve and view a table of stored entries, with sensitive passwords hidden by default (masked as `{hidden}`).
-- **F4**: The user can securely decrypt and copy a specific password to the system clipboard using the `--copy` flag.
-- **F5**: The user can modify existing entries, like updating an expired password, or delete obsolete entries by their ID.
-- **F6**: The application supports bulk operations, allowing the user to import credentials from a CSV file.
-- **F7**: The application allows the user to export their entire encrypted vault to a plaintext CSV file for backup purposes (requiring Master Password re-verification).
+- **F3**: The user can modify an entry, ensuring the operation updates the specific fields and that those changes persist.
+- **F4**: The user can delete an entry, assured of the fact that it will be permanently removed from the list.
+- **F5**: The system parses a valid import file and populates the database.
+- **F6**: The export process produces a valid file matching current system entries.
+- **F7**: The insertion of an identical site/username combination triggers an error message. 
+- **F8**: Attempting to save with empty compulsory fields triggers a warning popup/message.
+- **F9**: The setup window appears on first launch and creates the schema.
+- **F10**: The system returns specific rows based on search terms.
+- **F11**: The password is available in the clipboard immediately after retrieval.
+- **F12**: The omission of an email results in an empty string stored in the database.
+- **F13**: The graphical login window appears with all required widgets.
+- **F14**: Pressing the "Enter" key submits the login credentials.
+- **F15**: An incorrect login attempt triggers an explicit error popup.
 
 Security Requirements
 
@@ -132,10 +140,31 @@ Security Requirements
 
 Non-Functional Requirements 
 
-- **NF1**: The CLI utilizes color-coded output (green for success, red for errors, yellow for warnings) to enhance readability.
-- **NF2**: Data is presented in structured, auto-sized tables (using the `rich` library) rather than raw text.
-- **NF3**: The application handles large datasets (bulk import/export) without crashing or timing out.
-- **NF4**: The system cleans up resources (database connections) automatically, even if an error occurs during execution.
+- **NF1**: The `modify`, `delete`, and `export` commands always require re-entering the Master Password. 
+- **NF2**: The GUI buttons are clickable and feedback messages are distinct.
+- **NF3**: Table inspection allows to see that passwords appear as masked characters.
+- **NF4**: Code inspection and DB analysis allow to verify passowrds are stored as AES-256 ciphertext.
+- **NF5**: The Master Password is hashed and compared against the stored digest.
+- **NF6**: SQL errors (like duplicates) display a clear message and keep the app responsive.
+- **NF7**: Running `con` on an existing setup triggers a warning.
+- **NF8**: Connection failures during setup are reported clearly to the user.
+- **NF9**: Code review ensures that `secrets.token_hex` is used for the device secret.
+- **NF10**: The clipboard functionality is invoked.
+- **NF11**: Missing CLI arguments result in explicit error messages identifying the missing field.
+- **NF12**: The username/password fields are cleared after both successful and failed login attempts.
+
+Implementation Requirements
+- **I1** and **I7**: Entries and secrets are persisted in `secrets` and `entries` tables.
+- **I2**: Queries use standard SQL syntax.
+- **I3**: Source code is written in Python.
+- **I4**: Usage of `AES256util` module implementing AES-256.
+- **I5**: SHA-256 is used for key derivation
+- **I6**: Generated device secrets meet length and character constraints.
+- **I8**: Default connection string targets `localhost`.
+- **I9**: `argparse` handles flags like `-s`, `-u`, `-l`.
+- **I10**: `pyperclip` dependency is used for clipboard operations.
+- **I11**: GUI is built using `ttkbootstrap`.
+- **I12**: Verified usage of `tkinter.messagebox` for all user alerts.
 
 The overall test success rate for acceptance tests was 100%.
 
