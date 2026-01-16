@@ -91,13 +91,13 @@ Specific automated system tests were mapped to the project's acceptance criteria
 Functional requirements mapping: 
 - **F1**: validated by `test_cli_config_setup`. The aim was to verify that the `con` command trigers the database setup sequence.
 - **F2**: validated by `test_cli_add_entry_success`. The aim was to verify that the `add` command parses flags and successully invokes the storage logic.
-- **F3**: validated by `test_cli_retrieve_entries`. The aim was to verify that the `extract` command executes the search logic and rendersthe results table.
-- **F5**: validated by `test_cli_delete_entry_success`. The aim was to verify that the `rem` command accepts an `--id` and triggers the deletion workflow.
-- **F6**: validated by `test_cli_import_file`. The aim was to verify that the `imp` command accepts a file path and initiates the bulk ingestion process.
+- **F4**: validated by `test_cli_delete_entry_success`. The aim was to verify that the `rem` command accepts an `--id` and triggers the deletion workflow.
+- **F5**: validated by `test_cli_import_file`. The aim was to verify that the `imp` command accepts a file path and initiates the bulk ingestion process.
+- **F10**: validated by `test_cli_retrieve_entries`. The aim was to verify that the `extract` command executes the search logic and rendersthe results table.
 
-Security requirements mapping: 
+Security  and Non-Functional requirements mapping: 
 - **S1**: validated by `test_cli_master_password_failure`. The aim was to verify that providing an incorrect Master Password resulted in immediate termination of the session with a "Access Denied" error.
-- **S2**: validated by `test_cli_remove_missing_id`. The aim was to verify that potentially destructive commands fail safely if required arguments are missing. 
+- **NF11**: validated by `test_cli_remove_missing_id`. The aim was to verify that potentially destructive commands fail safely if required arguments are missing. 
 
 The test success related to the test file of reference (`pm.py`) achieved a 100% rate. The code coverage, instead, is 80%, indicating the tests successfully exercised all command routing logic, argument parsing branches, and error handling routines, with the remainder untested scenarios referring to OS-level interrupts and rare I/O exceptions that are difficult to simulate in a test environment.
 
