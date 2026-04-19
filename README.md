@@ -10,10 +10,7 @@ PROtect is a secure, Python-based password manager which uses a master password,
 4. Passwords are not stored in clear, but they are hashed
 5. Secure storage using MySQL
 6. CLI for terminal lovers
-7. Simple GUI with Kivy for more basic users
-(.............)
-
-[screenshots of CLI and GUI when ready] 
+7. Simple GUI with tkinter and ttkbootstrap for more basic users
 
 # Installation 
 ### by cloning the repository
@@ -29,8 +26,7 @@ poetry install (via bash) if using Poetry
 1. Passwords are hashed using SHA-256 via 'hashlib'
 2. Master Password never stored in plaintext
 3. Database access protected by MySQL login credentials
-4. No passwords are exposed in logs or errors
-   (....................)
+4. No passwords are exposed in logs or errors (but option still available on user demand)
 
 
 
