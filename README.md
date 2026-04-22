@@ -9,11 +9,16 @@ This repository contains the project report and documentation related to PROtect
 
 1. Master Password Protection
 2. Device-specific secret generation
-3. SHA-256 encryption for stored passwords
-4. Passwords are not stored in clear, but they are hashed
-5. Secure storage using MySQL
-6. CLI for terminal lovers
-7. Simple GUI with tkinter and ttkbootstrap for more basic users
+3. SHA-256 encryption for stored passwords (never in clear)
+4. Secure storage using MySQL 
+5. CLI for terminal lovers
+6. Simple GUI with tkinter and ttkbootstrap librrìary for more basic users
+7. Add, Modify or Delete an entry
+8. Import/Export entry data for scripts
+9. Lock to keep the app secure without closing it
+10. Retrieve entries by numeric ID
+11. All entires listed in a table in GUI visualization
+12. Default is password never showed, possibility of disclosing clear text for a fixed time amount
 
 # Installation 
 ### by cloning the repository
