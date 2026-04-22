@@ -22,12 +22,14 @@ This repository contains the project report and documentation related to PROtect
 
 # Installation 
 ### by cloning the repository
-'''bash 
+'''
+bash 
 git clone https://github.com/unibo-dtm-se-2425-PROtect
 
 pip install -r requirements.txt if using requirements.txt 
 
 poetry install (via bash) if using Poetry 
+'''
 
 # Security Principles
 
