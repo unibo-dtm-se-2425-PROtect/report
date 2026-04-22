@@ -22,7 +22,7 @@ This repository contains the project report and documentation related to PROtect
 
 # Installation 
 ### by cloning the repository
-'''
+''' text
 bash 
 git clone https://github.com/unibo-dtm-se-2425-PROtect
 
